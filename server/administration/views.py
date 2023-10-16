@@ -1,34 +1,39 @@
 from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from .authentication.login import LoginController
-from .authentication.verification_code import VerificationCode
-  
+from rest_framework.response   import Response
+
+from .authentication import LoginMiddleware
+from .authentication import VerificationCodeMiddleware
+from .authentication import CheckVerificationCodeMiddleware
+from .lib            import makeRequest
+
 
 @api_view(['POST'])
 def login(request):
-  isPayloadValid = LoginController.checkPayload(request.data)
+  response = makeRequest(request = request, middleware = LoginMiddleware)
+  return Response(status = response.status_code, data = response.body)
 
-  if hasattr(isPayloadValid, 'error'):
-    return Response(isPayloadValid.__dict__, status = 400)
+@api_view(['POST'])
+def verify_code(request):
+  response = makeRequest(request = request, middleware = VerificationCodeMiddleware)
+  return Response(status = response.status_code, data = response.body)
+
+
+@api_view(['GET'])
+def check_verify_code(request):
+  response = makeRequest(request = request, middleware = CheckVerificationCodeMiddleware)
+  return Response(status = response.status_code, data = response.body)
+
+"""
+@api_view(['GET'])
+def check_verify_code(request):
+  try:
+    email.x()
+  except Exception as e:
+    print(e)
+  finally:
+    return Response(
+      status = 200, 
+      data = { 'access': VerificationCodeController.handleAccessingToVerificationCode(request) }
+    )
   
-  user = LoginController.verifyCredentials(isPayloadValid.email, isPayloadValid.password)
-
-  if user.error == False:
-    code = saveVerificationCode()
-    sendEmail(code)
-  
-  return Response(user.__dict__)
-
-
-def saveVerificationCode(ip):
-  code = VerificationCode.generateCode()
-  VerificationCode.saveCode(code = code, ip = ip)
-
-  return code
-
-
-
-
-
-def sendEmail(email):
-  pass
+  """
