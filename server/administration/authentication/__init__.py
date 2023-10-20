@@ -1,4 +1,4 @@
-from administration.Mail import sendEmail
+from Mail                import sendEmail
 from administration.lib  import HTTP_REQUEST
 from .VerificationCode   import VerificationCodeController
 from .Login              import AuthenticationController
