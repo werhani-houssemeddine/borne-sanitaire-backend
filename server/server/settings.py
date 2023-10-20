@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'administration',
     'client', #new
-    'Mail'
+    'Mail',
+    'lib'
 ]
 
 MIDDLEWARE = [

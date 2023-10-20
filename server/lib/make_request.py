@@ -3,7 +3,7 @@ from lib.Http.http_response import HTTP_RESPONSE
 from lib.Http.http_response import HTTP_RESPONSE_BODY
 
 # this function will be used to make requests and will return the responses
-def makeRequest(request, middleware: function, **args):
+def makeRequest(request, middleware, **args):
   try:
     ip_address = request.META.get('REMOTE_ADDR')
     headers    = dict(request.META)
