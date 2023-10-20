@@ -1,4 +1,4 @@
-from administration.lib import HTTP_REQUEST
+from lib.Http.http_request import HTTP_REQUEST
 from .business_logic    import LoginBusinessLayer
     
 class AuthenticationController:

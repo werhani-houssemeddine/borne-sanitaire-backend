@@ -1,5 +1,5 @@
+from lib.Http.http_request import HTTP_REQUEST
 from Mail                import sendEmail
-from administration.lib  import HTTP_REQUEST
 from .VerificationCode   import VerificationCodeController
 from .Login              import AuthenticationController
 

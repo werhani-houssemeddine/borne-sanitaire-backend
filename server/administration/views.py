@@ -4,7 +4,7 @@ from rest_framework.response   import Response
 from .authentication import LoginMiddleware
 from .authentication import VerificationCodeMiddleware
 from .authentication import CheckVerificationCodeMiddleware
-from .lib            import makeRequest
+from lib             import makeRequest
 
 
 @api_view(['POST'])
