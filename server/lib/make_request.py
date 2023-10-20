@@ -30,7 +30,7 @@ def makeRequest(request, middleware, **args):
     return(HTTP_RESPONSE(
       status_code = http_response['status_code'],
       headers     = None,
-      body        = HTTP_RESPONSE_BODY.build(http_response)
+      body        = HTTP_RESPONSE_BODY.build(http_response['body'])
     ))
 
   except Exception as e:
@@ -41,7 +41,7 @@ def makeRequest(request, middleware, **args):
         error   = True,
         state   = "failure",
         data    = {
-          'details': e
+          'details': str(e)
         }
       )
     )
