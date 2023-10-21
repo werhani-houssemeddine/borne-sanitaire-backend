@@ -43,7 +43,7 @@ class HTTP_RESPONSE:
   def __init__(self, status_code, headers, body: HTTP_RESPONSE_BODY):
     self.status_code = status_code or 200
     self.headers     = headers
-    self.body        = body
+    self.body        = HTTP_RESPONSE_BODY.toJson(body)
 
   def _addJsonHeaders(self):
     pass
