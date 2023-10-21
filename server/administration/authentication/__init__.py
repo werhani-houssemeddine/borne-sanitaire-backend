@@ -19,7 +19,10 @@ def LoginMiddleware(request: HTTP_REQUEST):
           'body'       : {
             'message': 'Authentication done and verification code send successfully',
             'state'  : 'sucess',
-            'error'  : False
+            'error'  : False,
+            'data'   : {
+              'can_redirect': True
+            }
           }
         }
 
