@@ -1,6 +1,8 @@
 from django.core.mail import send_mail
 from django.conf      import settings
 
+from .samples import HTMLSample
+
 class InvalidInputException(Exception):
   pass
 
@@ -46,5 +48,11 @@ def sendEmail(subject, message, recipients):
 
 #! this function will be responsable of sending 
 #! an email with html content
-def sendHTMLContentEmail(subject, message, recipients, html_message):
-  pass
+def sendHTMLContentEmail(subject, message, recipients, html_message_sample):
+  send_mail(
+    recipient_list = recipients,
+    html_message   = html_message_sample(message),
+    from_email     = settings.EMAIL_HOST_USER,
+    subject        = subject,
+    message        = message,
+  )
