@@ -1,17 +1,18 @@
 from lib.Http.http_request import HTTP_REQUEST
-from Mail                import sendEmail
-from .VerificationCode   import VerificationCodeController
-from .Login              import AuthenticationController
+from Mail                  import sendHTMLContentEmail
+from Mail.samples          import HTMLSample
+from .VerificationCode     import VerificationCodeController
+from .Login                import AuthenticationController
 
 
 def LoginMiddleware(request: HTTP_REQUEST):
   try:
     if AuthenticationController.login(request):
-      verification_code = VerificationCodeController.handeCreatingVerificationCode(request.ip);
+      verification_code = VerificationCodeController.handeCreatingVerificationCode(request.ip)
       if verification_code:
-        # print ("Verification Code created successfully", verification_code)
+        
         listOfRecipients = ['houssemwuerhani@gmail.com', 'mohamedhedigharbi101@gmail.com']
-        sendEmail('Verification Code', verification_code, listOfRecipients)
+        sendHTMLContentEmail('Verification Code', verification_code, listOfRecipients, HTMLSample.VERIFICATION_CODE_SAMPLE)
 
         return {
           'status_code': 200,
