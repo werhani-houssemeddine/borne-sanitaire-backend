@@ -16,7 +16,7 @@ def getCurrentTime():
 def generateCSS():
   return """
     <style>
-      h3 {
+      h2 {
         color: #0073e6;
         font-family: Arial, sans-serif;
       }
