@@ -32,7 +32,7 @@ def LoginMiddleware(request: HTTP_REQUEST):
         'body'       : {
             'message': 'Credentials are wrong',
             'state'  : 'Failure',
-            'error'  : True
+            'error'  : False
           }
       }
   
@@ -63,7 +63,7 @@ def VerificationCodeMiddleware(request: HTTP_REQUEST):
         'status_code': 200,
         'body'       : {
           'message' : 'Verification Code is correct',
-          'state'   : 'sucess',
+          'state'   : 'success',
           'error'   : False,
           'data'    : { 
             'is_blocked': False,
@@ -79,13 +79,14 @@ def VerificationCodeMiddleware(request: HTTP_REQUEST):
         'body'       : {
           'message': 'Verification Code is not correct',
           'state'  : 'failure',
-          'error'  : True,
+          'error'  : False,
           'data'   : {
             'is_blocked': False
           }
         }
       }
-
+    
+    #? User is Blocked
     else:
       return {
         'status_code': 403,
