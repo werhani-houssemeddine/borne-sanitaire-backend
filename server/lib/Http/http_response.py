@@ -20,8 +20,9 @@ class HTTP_RESPONSE_BODY:
         response.error = body_response['error']
 
     if 'state' in body_response:
-      if body_response['state'] == 'success' or body_response['state'] == 'failure':
-        response.state = body_response['state']
+      state = body_response['state'].upper()
+      if state == 'SUCCESS' or state == 'FAILURE':
+        response.state = state
 
     if 'data' in body_response:
       response.data = body_response['data']
