@@ -7,9 +7,12 @@ class User(models.Model):
     ('agent', 'AGENT')
   ]
 
+  id = models.AutoField( primary_key = True )
+
   email = models.CharField(
-    primary_key = True,
     max_length  = 30,
+    unique      = True,
+    null        = False
   )
 
   password = models.CharField(
