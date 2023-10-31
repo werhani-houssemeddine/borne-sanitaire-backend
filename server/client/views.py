@@ -11,32 +11,48 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 from rest_framework.permissions import IsAuthenticated
 
 
+from client.authentication.Signup import SignUpController
+from client.authentication.Login  import LoginController
+from lib.make_request             import makeRequest
+from lib.token                    import Token  
+
+
+# from ..lib import makeRequest
+
+@api_view(['GET'])
+def currentUser(request):
+    token = request.headers['Authorization']
+    if(token == None):
+        return Response({ 'token': 'Not Found' }, status = 401)
+    else:
+        try:
+            
+
+            payload = {
+                "email": "houssemwuerhani@gmail.com",
+                "password": "123456789",
+                "id": 1
+            }
+
+            jwt_token = Token.createToken(payload)
+            
+            return Response({ 'token': jwt_token })
+        
+        except Exception as e:
+            print(f"Exception {e}")
+            return Response({ 'token': None }, status = 401)
+        
+
 @api_view(['POST'])
 def login(request):
-    user = get_object_or_404(User, username = request.data['username'])
-
-    if not user.check_password(request.data['password']):
-        return Response({"detail": "Not found."}, status = status.HTTP_404_NOT_FOUND)
-    
-    token, created = Token.objects.get_or_create(user = user)
-    serializer = AccountSerializer(instance = user)
-
-    return Response({"token": token.key, "user": serializer.data})
+    response = makeRequest(request = request, middleware = LoginController.login)
+    return Response(status = response.status_code, data = response.body)
 
 
 @api_view(['POST'])
 def signup(request):
-    serializer = AccountSerializer(data = request.data)
-
-    if serializer.is_valid():
-        serializer.save()
-        user = User.objects.get(username = request.data['username'])
-        user.set_password(request.data['password'])
-        user.save()
-        token = Token.objects.create( user = user)
-        return Response({"token": token.key, "user": serializer.data})
-    
-    return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+    response = makeRequest(request = request, middleware = SignUpController.singup)
+    return Response(status = response.status_code, data = response.body)
 
 
 @api_view(['GET'])
