@@ -7,10 +7,10 @@ from lib.Http.headers       import RequestHeaders
 def makeRequest(request, middleware, **args):
   try:
     ip_address = request.META.get('REMOTE_ADDR')
-    headers    = RequestHeaders(request)
+    headers    = RequestHeaders(request.headers)
     method     = request.method
     params     = args
-    query      = request.GET 
+    query      = request.GET.dict()
     body       = request.data
     path       = request.path
     url        = request.build_absolute_uri()
@@ -44,12 +44,13 @@ def makeRequest(request, middleware, **args):
   except Exception as e:
     return HTTP_RESPONSE(
       status_code = 500,
-      body        = HTTP_RESPONSE_BODY.build(
-        message = "Internal Server Error",
-        error   = True,
-        state   = "failure",
-        data    = {
+      headers     = None,
+      body        = HTTP_RESPONSE_BODY.build({
+        "message" : "Internal Server Error",
+        "error"   : True,
+        "state"   : "failure",
+        "data"    : {
           'details': str(e)
         }
-      )
+      })
     )
