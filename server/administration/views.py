@@ -1,11 +1,12 @@
 from rest_framework.decorators import api_view
 from rest_framework.response   import Response
 
-from .authentication import LoginMiddleware
-from .authentication import VerificationCodeMiddleware
-from .authentication import CheckVerificationCodeMiddleware
-from lib             import makeRequest
 
+from authentication.Middleware import LoginMiddleware
+from authentication.Middleware import VerificationCodeMiddleware
+from authentication.Middleware import CheckVerificationCodeMiddleware
+
+from lib import makeRequest
 
 @api_view(['POST'])
 def login(request):
