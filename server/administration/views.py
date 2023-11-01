@@ -2,9 +2,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response   import Response
 
 
-from authentication.Middleware import LoginMiddleware
-from authentication.Middleware import VerificationCodeMiddleware
-from authentication.Middleware import CheckVerificationCodeMiddleware
+from administration.authentication.Middleware import LoginMiddleware
+from administration.authentication.Middleware import VerificationCodeMiddleware
+from administration.authentication.Middleware import CheckVerificationCodeMiddleware
 
 from lib import makeRequest
 
