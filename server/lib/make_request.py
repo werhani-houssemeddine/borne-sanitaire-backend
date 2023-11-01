@@ -1,12 +1,13 @@
 from lib.Http.http_request  import HTTP_REQUEST
 from lib.Http.http_response import HTTP_RESPONSE
 from lib.Http.http_response import HTTP_RESPONSE_BODY
+from lib.Http.headers       import RequestHeaders
 
 # this function will be used to make requests and will return the responses
 def makeRequest(request, middleware, **args):
   try:
     ip_address = request.META.get('REMOTE_ADDR')
-    headers    = dict(request.META)
+    headers    = RequestHeaders(request)
     method     = request.method
     params     = args
     query      = request.GET 
