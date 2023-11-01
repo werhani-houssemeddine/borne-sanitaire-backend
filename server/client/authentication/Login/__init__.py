@@ -35,7 +35,7 @@ class LoginController:
       return writeCredentials(token = jwt_token)
 
     except Exception as e:
-      RESPONSE_SAMPLE.badRequest({ 'details': str(e) })
+      return RESPONSE_SAMPLE.badRequest({ 'details': str(e) })
   
 
 
