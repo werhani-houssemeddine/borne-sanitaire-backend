@@ -8,7 +8,8 @@ def makeRequest(request, middleware, **args):
     ip_address = request.META.get('REMOTE_ADDR')
     headers    = dict(request.META)
     method     = request.method
-    params     = request.GET
+    params     = args
+    query      = request.GET 
     body       = request.data
     path       = request.path
     url        = request.build_absolute_uri()
@@ -19,9 +20,15 @@ def makeRequest(request, middleware, **args):
 
     # Create a request to use send it instead of the origin request
     # send it with the middleware function (it's the api controller)
-    http_request  = HTTP_REQUEST(
-      ip_address, headers, method,
-      params, body, path, url
+    http_request = HTTP_REQUEST( 
+      ip_address = ip_address,
+      headers    = headers,
+      method     = method,
+      params     = params,
+      query      = query,
+      body       = body,
+      path       = path,
+      url        = url
     )
 
     # Get the response from the middleware
