@@ -19,7 +19,7 @@ class SignUpController:
 
       # Check user existing
       if is_user_exist != None:
-        return userAlreadyExist()
+        return RESPONSE_SAMPLE.badRequest({ 'email': 'PROPERTY VALUE ALREADY EXIST' })
       
       # Specify number of rounds for bcrypt hash method
       # ans hash the password
@@ -50,8 +50,6 @@ class SignUpController:
       return RESPONSE_SAMPLE.badRequest({ 'details': str(e) })
       
   
-def userAlreadyExist():
-  return RESPONSE_SAMPLE.badRequest({ 'email': 'PROPERTY VALUE ALREADY EXIST' })
 
 def writeCredentials(token: str) -> dict:
   return {
