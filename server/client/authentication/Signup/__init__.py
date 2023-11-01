@@ -46,7 +46,8 @@ class SignUpController:
       return writeCredentials(token = jwt_token)
 
     except Exception as e:
-      RESPONSE_SAMPLE.badRequest({ 'details': str(e) })
+      print(e)
+      return RESPONSE_SAMPLE.badRequest({ 'details': str(e) })
       
   
 def userAlreadyExist():
