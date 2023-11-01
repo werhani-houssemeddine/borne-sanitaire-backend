@@ -6,16 +6,21 @@ class RESPONSE_SAMPLE:
   def badRequest(details: dict):
     
     if isinstance(details, dict) == False:
-      details = ''
-
-    return {
-      'status_code': 400,
-      'body'       : {
-        'message' : 'Bad Request',
-        'state'   : 'failure',
-        'error'   : True,
-        'data'    : { 
-          details
+      return {
+        'status_code': 400,
+        'body'       : {
+          'message' : 'Bad Request',
+          'state'   : 'failure',
+          'error'   : True,
         }
       }
-    }
+  
+    else:
+      return {
+      'status_code': 400,
+        'body'       : {
+          'message' : 'Bad Request',
+          'state'   : 'failure',
+          'error'   : True,
+        }
+      }
