@@ -1,6 +1,5 @@
 class RequestHeaders:
   def __init__(self, headers: dict) -> None:
-    print(headers)
     self.contentLength = headers.get('Content-Length')
     self.contentType   = headers.get('Content-Type')
     self.agent         = headers.get('User-Agent')
