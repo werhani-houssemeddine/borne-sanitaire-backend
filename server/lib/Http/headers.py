@@ -1,10 +1,25 @@
 class RequestHeaders:
   def __init__(self, headers: dict) -> None:
-
+    print(headers)
     self.contentLength = headers.get('Content-Length')
     self.contentType   = headers.get('Content-Type')
-    self.cookies       = headers.get('Cookie').split('; ')
     self.agent         = headers.get('User-Agent')
-    self.accept        = headers.get('Accept').split(',')
     self.host          = headers.get('Host')
     
+    self.__getCookies(headers)
+    self.__getAccept()
+
+  # Not all HTTP Request have cookies, we need to check
+  # the presence of them before split or making other operations
+  def __getCookies(self, headers):
+    if isinstance(headers.get('Cookie'), str):
+      self.cookies = headers.get('Cookie').split('; ')
+    else:
+      self.cookies = None
+
+  # The same reason as Cookies
+  def __getAccept(self, headers):
+    if isinstance(headers.get('Cookie'), str):
+      self.accept = headers.get('Accept').split(',')
+    else:
+      self.accept = None    
