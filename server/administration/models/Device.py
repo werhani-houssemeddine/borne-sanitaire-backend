@@ -9,4 +9,4 @@ class Device(models.Model):
   version = models.CharField(max_length=8, null=False)
   is_saled = models.BooleanField(default=False)
   created_at = models.DateTimeField(auto_now_add=True)
-  purchase_date = models.DateTimeField()
+  purchase_date = models.DateTimeField(null=True)
