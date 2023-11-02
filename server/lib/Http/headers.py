@@ -7,7 +7,7 @@ class RequestHeaders:
     self.host          = headers.get('Host')
     
     self.__getCookies(headers)
-    self.__getAccept()
+    self.__getAccept(headers)
 
   # Not all HTTP Request have cookies, we need to check
   # the presence of them before split or making other operations
