@@ -2,6 +2,7 @@
 
 from django.db import models
 from .User     import User 
+import uuid
 
 class RequestAgent(models.Model):
 
@@ -11,8 +12,8 @@ class RequestAgent(models.Model):
     ('reject', 'REJECT')
   ]
 
-  id = models.AutoField( primary_key = True )
-  
+  request_id = models.UUIDField(default = uuid.uuid4, editable = False, unique = True, primary_key=True)
+
   user_id = models.ForeignKey(User, on_delete= models.CASCADE)
 
   email = models.CharField(
