@@ -40,3 +40,19 @@ class RESPONSE_SAMPLE:
         'error'   : True,
       }
     }
+  
+  @staticmethod
+  def successfullyCreadted(details: dict = None):
+    response = {
+      'status_code': 201,
+      'body'       : {
+        'message': 'CREATED SUCCESSFULLY',
+        'state'  : 'SUCCESS',
+        'error'  : False,
+      }
+    }
+
+    if isinstance(details, dict):
+      response['body']['data'] = details
+
+    return response
