@@ -15,8 +15,8 @@ class RESPONSE_SAMPLE:
     
     # Add property data if details is a dict
     if isinstance(details, dict):
-      response["data"] = details
-  
+      response["body"]["data"] = details
+
     return response
   
   @staticmethod
