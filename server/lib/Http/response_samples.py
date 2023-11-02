@@ -18,3 +18,25 @@ class RESPONSE_SAMPLE:
       response["data"] = details
   
     return response
+  
+  @staticmethod
+  def notFound():
+    return {
+      'status_code': 404,
+      'body'       : {
+        'message' : 'NOT FOUND',
+        'state'   : 'failure',
+        'error'   : True,
+      }
+    }
+  
+  @staticmethod
+  def serverError():
+    return {
+      'status_code': 500,
+      'body'       : {
+        'message' : 'INTERNAL SERVER ERROR',
+        'state'   : 'failure',
+        'error'   : True,
+      }
+    }
