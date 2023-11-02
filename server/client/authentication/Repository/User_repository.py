@@ -20,7 +20,6 @@ class User:
     try:
       return UserTable.objects.get(email = email)
     except Exception as e:
-      print(e)
       return None
     
   @staticmethod
