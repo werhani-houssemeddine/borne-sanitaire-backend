@@ -3,10 +3,8 @@
 #
 class RESPONSE_SAMPLE:
   @staticmethod
-  def badRequest(details: dict):
-    
-    if isinstance(details, dict) == False:
-      return {
+  def badRequest(details: dict = None):
+    response = {
         'status_code': 400,
         'body'       : {
           'message' : 'Bad Request',
@@ -14,13 +12,9 @@ class RESPONSE_SAMPLE:
           'error'   : True,
         }
       }
+    
+    # Add property data if details is a dict
+    if isinstance(details, dict):
+      response["data"] = details
   
-    else:
-      return {
-      'status_code': 400,
-        'body'       : {
-          'message' : 'Bad Request',
-          'state'   : 'failure',
-          'error'   : True,
-        }
-      }
+    return response
