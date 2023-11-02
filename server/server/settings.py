@@ -41,6 +41,8 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders', # CORS
+
     'administration',
     'client', #new
     'Mail',
@@ -55,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware', # CORS
 ]
 
 ROOT_URLCONF = 'server.urls'
@@ -145,4 +148,9 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+
+# BCRYPE ROUNDS NUMBER
 BCRYPT_ROUNDS = 12
+
+# CORS ALLOW ACCESS TO ALL DOMAIN
+CORS_ORIGIN_ALLOW_ALL = True
