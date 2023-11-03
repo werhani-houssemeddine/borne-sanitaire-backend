@@ -13,7 +13,10 @@ class User:
 
   @staticmethod
   def getUserById(id: int):
-    return User.getUser({ 'id': id })
+    try:
+      return UserTable.objects.get(id = id)
+    except Exception as e:
+      return None
   
   @staticmethod
   def getUserByEmail(email: str):
