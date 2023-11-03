@@ -1,7 +1,7 @@
 from lib.Http     import HTTP_REQUEST, RESPONSE_SAMPLE
 from lib.token    import Token
 
-from client.authentication.Repository import User, Device
+from client.Repository import User, Device
 from client.authentication.Signup     import SignUpController
 
 def SignupAdminMiddleware(request: HTTP_REQUEST):
