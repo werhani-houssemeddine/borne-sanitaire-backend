@@ -1,0 +1,1 @@
+from lib.utils.auth import isAuthenticate as Authenticate
