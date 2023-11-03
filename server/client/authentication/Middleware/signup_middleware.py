@@ -10,13 +10,13 @@ def SignupAdminMiddleware(request: HTTP_REQUEST):
     if device_id == None:
       return RESPONSE_SAMPLE.notFound()
     
-    #? -> Add role to request body
-    request.body['role'] = "ADMIN"
-    (email, password, user_name, role) = SignUpController.validateUserData(request.body)
-
     #? CHECK IF THE DEVICE EXIST
     if Device.getDeviceById(device_id) == None:
       return RESPONSE_SAMPLE.badRequest({ 'device': 'THIS DEVICE ID IS NO MORE VALID' })
+    
+    #? -> Add role to request body
+    request.body['role'] = "ADMIN"
+    (email, password, user_name, role) = SignUpController.validateUserData(request.body)
     
     #? CHECK IF THE USER EXIST
     if User.getUserByEmail(email) != None: # User exist
