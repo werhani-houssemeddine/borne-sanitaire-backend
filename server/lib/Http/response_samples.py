@@ -56,3 +56,14 @@ class RESPONSE_SAMPLE:
       response['body']['data'] = details
 
     return response
+  
+  @staticmethod
+  def notAuthorised():
+    return {
+      'status_code': 401,
+      'body'       : {
+        'message': 'UNAUTHORISED',
+        'state'  : 'failure',
+        'error'  : True,
+      }
+    }
