@@ -4,6 +4,7 @@ class RequestHeaders:
     self.contentType   = headers.get('Content-Type')
     self.agent         = headers.get('User-Agent')
     self.host          = headers.get('Host')
+    self.Authorization = headers.get('Authorization')
     
     self.__getCookies(headers)
     self.__getAccept(headers)
