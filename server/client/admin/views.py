@@ -7,7 +7,6 @@ from lib.utils        import Authenticate
 from client.admin.Middleware import CurrentUser
 from client.agent.Middleware import Agent
 
-from Mail.samples.verification_code import SVGImage
 
 @api_view(['GET'])
 @Authenticate
