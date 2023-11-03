@@ -1,4 +1,5 @@
 from .verification_code import generateVerificationCodeTemplate
+from .add_agent         import generateAddAgentTemplate  
 
 # This class will have a couple of examples of 
 # an email with HTML content, we will add others for 
@@ -11,5 +12,5 @@ class HTMLSample:
     return generateVerificationCodeTemplate(code)
   
   @staticmethod
-  def ANOTHER_CODE_SAMPLE():
-    pass
+  def NEW_AGENT_SAMPLE(full_name):
+    return generateAddAgentTemplate(full_name = full_name, link = "")
