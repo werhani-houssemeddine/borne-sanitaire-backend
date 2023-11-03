@@ -1,4 +1,5 @@
 from datetime import datetime
+from pathlib  import Path
 
 #! This file will be the responsable of writing the HTML content
 
@@ -54,10 +55,10 @@ def generateCSS():
     </style>
   """
 
-def generateEmailContent(code, agent, current_time):
+def generateEmailContent(code, agent, current_time, logo):
   return f"""
     <h2>Borne sanitaire</h2>
-    <h1>Verification Code</h1>
+    {logo}
     <p class="welcome-paragraph">
       Welcome, Admin, to the Borne Sanitaire application. 
       We have received your request to access our platform 
@@ -78,13 +79,23 @@ def generateEmailContent(code, agent, current_time):
     <a href="#" class="button-link">Not Me</a>
   """
 
+def SVGImage():
+  path_directory = Path(__file__).parent
+  image_path     = "assets/image-01.svg"
+  full_path      = path_directory.joinpath(image_path)
+  #with open(path_directory.joinpath(image_path), 'r') as file:
+  #  content = file.read()
+
+  return f"<img src='{full_path}' width='600' height='400'  /> "
+
 def generateVerificationCodeTemplate(code = "xXxXxXx", agent= 'Smart Phone xXx'):
   current_time    = getCurrentTime()
   getCssStyle     = generateCSS()
   getEmailContent = generateEmailContent(
     current_time = current_time,
     agent        = agent, 
-    code         = code
+    code         = code,
+    logo         = SVGImage() 
   )
 
   return f"""
