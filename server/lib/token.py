@@ -18,6 +18,6 @@ class Token:
   @staticmethod
   def getTokenPayload(jwt_payload):
     if isinstance(jwt_payload, str):
-      return jwt.decode(jwt, JWT_SECRET_KEY, algorithms=['HS256'])
+      return jwt.decode(jwt_payload, JWT_SECRET_KEY, algorithms=['HS256'])
     
     raise Exception('INVALID PAYLOAD TYPE')
