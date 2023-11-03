@@ -1,8 +1,8 @@
 from rest_framework.decorators import api_view
 from rest_framework.response   import Response
 
-from client.agent import Agent
-from lib          import makeRequest
+from client.agent.Middleware import Agent
+from lib.make_request        import makeRequest
 
 @api_view(['POST'])
 def addAgent(request):
