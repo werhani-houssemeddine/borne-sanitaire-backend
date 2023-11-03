@@ -18,3 +18,10 @@ class RequestAgent:
     except Exception as e:
       print(e)
       raise
+
+  @staticmethod
+  def getRequestAgentByEmail(email):
+    try:
+      return RequestAgentTable.objects.get(email = email)
+    except Exception as e:
+      return None
