@@ -67,3 +67,14 @@ class RESPONSE_SAMPLE:
         'error'  : True,
       }
     }
+  
+  @staticmethod
+  def ok():
+    return {
+      'status_code': 200,
+      'body'       : {
+        'message': 'OK',
+        'state'  : 'success',
+        'error'  : False,
+      }
+    }
