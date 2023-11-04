@@ -31,6 +31,19 @@ class Agent:
 
     except Exception as e:
       return RESPONSE_SAMPLE.badRequest({ 'details': str(e) })
+    
+  def checkRequestAgent(request: HTTP_REQUEST):
+    agent_id = request.query.get('agent')
+    if agent_id == None:
+      return RESPONSE_SAMPLE.notFound()
+    
+    #? CHECK IF THE REQUEST AGENT EXIST
+    isRequestAgentEntityExist = RequestAgent.getRequestAgentById(agent_id, "PENDING")
+
+    if isRequestAgentEntityExist == None:
+      return RESPONSE_SAMPLE.badRequest({ 'request_agent': 'THIS REQUEST IS NO MORE VALID' })
+    
+    return RESPONSE_SAMPLE.ok()
 
   def edit(request: HTTP_REQUEST):
     pass
