@@ -45,7 +45,7 @@ function handleSubmitForm(user_name, password) {
     if(validInputs === true){
 
       try{
-        const response = await fetch(constructURL(), {
+        const response = await fetch(constructURL('/api/client/signup/'), {
           method : 'POST',
           body   : JSON.stringify(userData),
           headers: { 'Content-Type': 'application/json' }
@@ -80,6 +80,9 @@ function getQueries() {
 }
 
 function getAgentId(agentQuery) {
+  
+  if (agentQuery === null) return null;
+
   for(let q of agentQuery) {
     if('agent' in q && q['agent'] !== undefined) {
       return q['agent'];
@@ -87,14 +90,22 @@ function getAgentId(agentQuery) {
   }
 }
 
-function constructURL() {
+function constructURL(endpoint) {
   const BASE_URL    = location.origin;
-  const ENDPOINT    = '/api/client/signup/';
 
   const AGENT_QUERY = { agent: getAgentId(getQueries()) };
   const queryString = Object.keys(AGENT_QUERY)
                             .map(key => `${key}=${encodeURIComponent(AGENT_QUERY[key])}`)
                             .join('&');
 
-  return `${BASE_URL}${ENDPOINT}?${queryString}`;
+  return `${BASE_URL}${endpoint}?${queryString}`;
 }
+
+window.addEventListener('load', async() => {
+  const response = await fetch(constructURL('/check-request-agent/'));
+  if(response.status === 200){
+    alert('valid id');
+  } else {
+    alert('not valid id');
+  }
+});
