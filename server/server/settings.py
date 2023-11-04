@@ -45,6 +45,8 @@ INSTALLED_APPS = [
 
     'administration',
     'client', #new
+    'website',
+
     'Mail',
     'lib'
 ]
