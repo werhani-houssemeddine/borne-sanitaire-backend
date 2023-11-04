@@ -3,7 +3,7 @@ from lib.token    import Token
 
 from client.authentication.Signup     import SignUpController
 
-from client.Repository import User, RequestAgent
+from client.Repository import RequestAgent
 
 def SignupAgentMiddleware(request: HTTP_REQUEST):
   try:
