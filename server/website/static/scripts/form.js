@@ -102,7 +102,7 @@ function constructURL(endpoint) {
 }
 
 window.addEventListener('load', async() => {
-  const response = await fetch(constructURL('/check-request-agent/'));
+  const response = await fetch(constructURL('/api/client/agent/check-request-agent/'));
   if(response.status === 200){
     alert('valid id');
   } else {
