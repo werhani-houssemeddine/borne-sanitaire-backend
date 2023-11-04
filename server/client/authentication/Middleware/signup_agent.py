@@ -3,7 +3,7 @@ from lib.token    import Token
 
 from client.authentication.Signup     import SignUpController
 
-from client.Repository import RequestAgent
+from client.Repository import User, RequestAgent
 
 def SignupAgentMiddleware(request: HTTP_REQUEST):
   try:
@@ -13,7 +13,7 @@ def SignupAgentMiddleware(request: HTTP_REQUEST):
     
     #? CHECK IF THE REQUEST AGENT EXIST
     isRequestAgentEntityExist = RequestAgent.getRequestAgentById(agent_id, "PENDING")
-    print("CHHHH", isRequestAgentEntityExist)
+
     if isRequestAgentEntityExist == None:
       return RESPONSE_SAMPLE.badRequest({ 'request_agent': 'THIS REQUEST IS NO MORE VALID' })
     
@@ -24,9 +24,10 @@ def SignupAgentMiddleware(request: HTTP_REQUEST):
     
     #! WE ARE NOT CHECKING FOR EMAIL BECAUSE WE ALREADY 
     #! CHECKED IT BEFORE WE SENT TO REQUEST
-     
+    
     #? CREATE USER
-    user = SignUpController.createUser(email, password, user_name, role)
+    admin = isRequestAgentEntityExist.user_id
+    user = SignUpController.createUser(email, password, user_name, role, user = admin)
 
     #? UPDATE REQUEST AGENT STATE
     isRequestAgentEntityExist.state = 'ACCEPT'
