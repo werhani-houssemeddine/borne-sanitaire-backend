@@ -2,7 +2,7 @@ from rest_framework.response   import Response
 from rest_framework.decorators import api_view
 
 from client.authentication.Middleware import LoginMiddleware
-from client.authentication.Middleware import SignupAdminMiddleware
+from client.authentication.Middleware import SignupMiddleware
 from lib.make_request                 import makeRequest
 
 @api_view(['POST'])
@@ -13,5 +13,5 @@ def login(request):
 
 @api_view(['POST'])
 def signup(request):
-    response = makeRequest(request = request, middleware = SignupAdminMiddleware)
+    response = makeRequest(request = request, middleware = SignupMiddleware)
     return Response(status = response.status_code, data = response.body)
