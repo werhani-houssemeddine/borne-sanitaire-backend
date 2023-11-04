@@ -25,3 +25,10 @@ class RequestAgent:
       return RequestAgentTable.objects.get(email = email)
     except Exception as e:
       return None
+    
+  @staticmethod
+  def getRequestAgentById(id, state = "PENDING"):
+    try:
+      return RequestAgentTable.objects.get(request_id = id, state = state)
+    except Exception as e:
+      return None
