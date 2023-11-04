@@ -1,2 +1,2 @@
-from .login_middleware  import LoginMiddleware
+from .login             import LoginMiddleware
 from .signup            import SignupMiddleware
