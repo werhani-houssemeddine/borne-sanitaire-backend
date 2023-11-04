@@ -13,7 +13,7 @@ class SignUpController:
 
   
   @staticmethod
-  def createUser(email, password, user_name, role):
+  def createUser(email, password, user_name, role, user = None):
     try:
       # Specify number of rounds for bcrypt hash method
       # ans hash the password
@@ -26,7 +26,10 @@ class SignUpController:
         return User.createNewAdmin(email = email, password = hashed_passowrd, user_name = user_name)
       
       elif role == "AGENT":
-        return User.createNewAgent(email = email, password = hashed_passowrd, user_name = user_name)
+        createdAgent = User.createNewAgent(email = email, password = hashed_passowrd, user_name = user_name)
+        createdAgent.user_id = user
+        createdAgent.save()
+        return createdAgent
 
     except Exception as e:
       raise
