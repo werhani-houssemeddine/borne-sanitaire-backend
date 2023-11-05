@@ -69,8 +69,8 @@ class RESPONSE_SAMPLE:
     }
   
   @staticmethod
-  def ok():
-    return {
+  def ok(data = None):
+    response = {
       'status_code': 200,
       'body'       : {
         'message': 'OK',
@@ -78,3 +78,8 @@ class RESPONSE_SAMPLE:
         'error'  : False,
       }
     }
+
+    if data != None:
+      response['body']['data'] = data
+
+    return response
