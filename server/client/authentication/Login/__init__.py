@@ -23,6 +23,10 @@ class LoginController:
     try:
       # Return User by looking user_email
       user = User.getUserByEmail(email)
+      
+      # User not found
+      if user == None:
+        return None
 
       # Specify number of rounds for bcrypt hash method
       Bcrypt.rounds = 10
