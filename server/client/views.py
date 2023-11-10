@@ -24,4 +24,4 @@ def signup(request):
 @Authenticate
 def currentUser(request):
     response = makeRequest(request = request, middleware = CurrentUserMiddleware)
-    return Response(status = 200, data = {"current-user": "houssemeddine werhani"})
+    return Response(status = response.status_code, data = response.body)
