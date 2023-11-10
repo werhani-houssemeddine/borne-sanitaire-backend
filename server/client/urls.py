@@ -7,6 +7,7 @@ ADMIN_ENDPOINT  = include('client.admin.urls')
 urlpatterns = [ 
   path('signup/', views.signup),
   path('login/', views.login),
+  path('current-user/', views.currentUser),
 
   path('admin/', ADMIN_ENDPOINT),
   path('agent/', AGENT_ENDPOINT)
