@@ -2,7 +2,7 @@ from lib.Http.http_request import HTTP_REQUEST
 from lib.bcrypt            import Bcrypt 
 from lib.token             import Token
 
-from client.authentication.Login.business_rules import LogIn as LoginValidate
+from .business_rules import LogIn as LoginValidate
 from client.Repository import User
 from client.models     import User as UserTable 
 class LoginController:

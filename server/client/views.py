@@ -1,10 +1,12 @@
 from rest_framework.response   import Response
 from rest_framework.decorators import api_view
 
-from client.authentication.Middleware import LoginMiddleware
-from client.authentication.Middleware import SignupMiddleware
 from lib.make_request                 import makeRequest
 from lib.utils                        import Authenticate
+
+from client.authentication import CurrentUserMiddleware
+from client.authentication import SignupMiddleware
+from client.authentication import LoginMiddleware
 
 
 @api_view(['POST'])
@@ -21,5 +23,5 @@ def signup(request):
 @api_view(['GET'])
 @Authenticate
 def currentUser(request):
-    response = makeRequest(request = request, middleware = CurrentUser)
+    response = makeRequest(request = request, middleware = CurrentUserMiddleware)
     return Response(status = 200, data = {"current-user": "houssemeddine werhani"})
