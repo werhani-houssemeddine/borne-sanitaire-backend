@@ -7,7 +7,9 @@ from administration.authentication.Login            import AuthenticationControl
 
 def LoginMiddleware(request: HTTP_REQUEST) -> dict:
   try:
-    if AuthenticationController.login(request):
+    user = AuthenticationController.login(request)
+    
+    if user != None:
       verification_code = VerificationCodeController.handeCreatingVerificationCode(request.ip)
       if verification_code:
         
@@ -20,9 +22,7 @@ def LoginMiddleware(request: HTTP_REQUEST) -> dict:
             'message': 'Authentication done and verification code send successfully',
             'state'  : 'sucess',
             'error'  : False,
-            'data'   : {
-              'can_redirect': True
-            }
+            'data'   : user
           }
         }
 
