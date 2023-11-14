@@ -1,3 +1,4 @@
 .env
 db.sqlite3
 server/db.sqlite3
+management/*.json
