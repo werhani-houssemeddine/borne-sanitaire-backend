@@ -24,9 +24,9 @@ data = [
     "model": "administration.superadmin",
     "pk": 2,
     "fields": {
-      "email": "mohamedhedigharbi@gmail.com",
-      "password": hashPassword("mohamedhedigharbi@gmail.com"),
-      "phone_number": "20202020",
+      "email": "mohamedhedigharbi101@gmail.com",
+      "password": hashPassword("mohamedhedigharbi101@gmail.com"),
+      "phone_number": "24038805",
       "username": "Mohamed Hedi Gharbi",
       "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
