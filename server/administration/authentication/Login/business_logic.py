@@ -34,9 +34,11 @@ class LoginBusinessLayer:
   # to ensure that email and password are valid, the function will just ensure that 
   # email and password are correct 
   @staticmethod
-  def check_credentials(email: str, password: str):
+  def check_credentials(email: str, password: str) -> SuperAdminTable | None:
     user = SuperAdminTable.objects.get(email = email)
-    if user == None:
-      return False
+    
+    if user != None:
+      if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
+        return user
       
-    return bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8'))
+    return None
