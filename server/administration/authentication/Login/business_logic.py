@@ -1,3 +1,6 @@
+from administration.models import SuperAdmin as SuperAdminTable
+import bcrypt
+
 class InvalidInputException(Exception):
   pass
 
@@ -31,5 +34,9 @@ class LoginBusinessLayer:
   # to ensure that email and password are valid, the function will just ensure that 
   # email and password are correct 
   @staticmethod
-  def check_credentials(email, password):
-    return email == 'houssemwuerhani@gmail.com' and password == '_00aa123452002_'
+  def check_credentials(email: str, password: str):
+    user = SuperAdminTable.objects.get(email = email)
+    if user == None:
+      return False
+      
+    return bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8'))
