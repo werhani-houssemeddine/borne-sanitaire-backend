@@ -1,10 +1,10 @@
 from lib.Http.http_request import HTTP_REQUEST
 from .business_logic    import LoginBusinessLayer
-from lib.token import Token
+from administration.models import SuperAdmin as SuperAdminTable
     
 class AuthenticationController:
   @staticmethod 
-  def login(request: HTTP_REQUEST):
+  def login(request: HTTP_REQUEST) -> SuperAdminTable | None:
     try:
       data = request.body
 
@@ -12,17 +12,8 @@ class AuthenticationController:
         password = data.get('password'),
         email    = data.get('email')
       )
-      checkingResult = LoginBusinessLayer.check_credentials(email, password)
-      
-      if checkingResult != None:
-        user = checkingResult
-        payload = { 'email': user.email, 'username': user.username, 'phone_number': user.phone_number }
-        payload['token'] = Token.createToken(payload)
 
-        return payload
-      
-      return None
-        
+      return LoginBusinessLayer.check_credentials(email, password)      
 
     except Exception as e:
       raise
