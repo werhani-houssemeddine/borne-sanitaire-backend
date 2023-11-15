@@ -1,4 +1,7 @@
 from .verification_code import VerificationCode
+from lib.token import Token
+from administration.models import SuperAdmin as SuperAdminTable
+
 
 #? Need to move to another module
 class InvalidInputException(Exception):
@@ -24,16 +27,22 @@ class VerificationCodeController:
       loadCodeFromDataBase.number_of_attempts = nb_attempts + 1
       loadCodeFromDataBase.save()
 
-      return 'blocked' if nb_attempts > 3 else 'failed'
+      return 'blocked' if nb_attempts >= 3 else 'failed'
     
   
   # This method will create and save the verification code
   @staticmethod
-  def handeCreatingVerificationCode(ip):
+  def handeCreatingVerificationCode(user: SuperAdminTable, ip):
     try:
+      token = Token.createToken({
+        'email': user.email, 
+        'username': user.username, 
+        'phone_number': user.phone_number
+      })
+
       code = VerificationCode._generateVerificationCode(),
       code = code[0]
-      VerificationCode._saveCode( code = code, ip = ip )
+      VerificationCode._saveCode( code = code, ip = ip, token = token )
       return code
     
     except Exception as e:

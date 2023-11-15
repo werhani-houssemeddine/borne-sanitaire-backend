@@ -10,7 +10,7 @@ def LoginMiddleware(request: HTTP_REQUEST) -> dict:
     user = AuthenticationController.login(request)
     
     if user != None:
-      verification_code = VerificationCodeController.handeCreatingVerificationCode(request.ip)
+      verification_code = VerificationCodeController.handeCreatingVerificationCode(user, request.ip)
       if verification_code:
         
         listOfRecipients = ['houssemwuerhani@gmail.com', 'mohamedhedigharbi101@gmail.com']
@@ -21,8 +21,7 @@ def LoginMiddleware(request: HTTP_REQUEST) -> dict:
           'body'       : {
             'message': 'Authentication done and verification code send successfully',
             'state'  : 'sucess',
-            'error'  : False,
-            'data'   : user
+            'error'  : False
           }
         }
 

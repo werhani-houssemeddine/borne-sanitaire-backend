@@ -18,12 +18,12 @@ class VerificationCode:
   # it will return either True or an Exception, the code will 
   # be passed as an argument 
   @staticmethod
-  def _saveCode(code, ip):
+  def _saveCode(code, ip, token):
     try:
       try:
         is_verification_code_exist      = VerificationCode._loadCode(ip)
         is_verification_code_exist.code = code
-        
+        is_verification_code_exist.token = token
         is_verification_code_exist.save()
 
         return True
