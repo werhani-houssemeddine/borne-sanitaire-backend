@@ -7,27 +7,13 @@ from administration.authentication.Login            import AuthenticationControl
 
 def VerificationCodeMiddleware(request: HTTP_REQUEST):
   try:
-    verificationCodeResponse =VerificationCodeController.handleCodeComparision(
+    verificationCodeResponse = VerificationCodeController.handleCodeComparision(
       ip   = request.ip,
       code = request.body.get('verification_code')
     )
 
-    if verificationCodeResponse == 'success':
-      return {
-        'status_code': 200,
-        'body'       : {
-          'message' : 'Verification Code is correct',
-          'state'   : 'success',
-          'error'   : False,
-          'data'    : { 
-            'is_blocked': False,
-            'token'     : 'token will be available soon ☺️',
-          }
-        }
-      }
-
     #! must add the logic of blocking users
-    elif verificationCodeResponse == 'failed':
+    if verificationCodeResponse == 'failed':
       return {
         'status_code': 200,
         'body'       : {
@@ -41,7 +27,7 @@ def VerificationCodeMiddleware(request: HTTP_REQUEST):
       }
     
     #? User is Blocked
-    else:
+    elif verificationCodeResponse == 'blocked':
       return {
         'status_code': 403,
         'body'       : {
@@ -50,6 +36,20 @@ def VerificationCodeMiddleware(request: HTTP_REQUEST):
           'error'  : True,
           'data'   : {
             'is_blocked': True
+          }
+        }
+      }
+
+    else:
+      return {
+        'status_code': 200,
+        'body'       : {
+          'message' : 'Verification Code is correct',
+          'state'   : 'success',
+          'error'   : False,
+          'data'    : { 
+            'is_blocked': False,
+            'data'      : verificationCodeResponse
           }
         }
       }
