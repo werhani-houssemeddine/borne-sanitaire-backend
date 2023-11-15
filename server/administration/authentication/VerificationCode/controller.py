@@ -18,8 +18,18 @@ class VerificationCodeController:
     getUserCode          = code
 
     if(getUserCode == loadCodeFromDataBase.code):
+
+      #? Payload a dictionary { 'email', 'username', 'phone_number' }
+      payload = Token.getTokenPayload(loadCodeFromDataBase.token)
+      
+      #? Add token to payload
+      payload['token'] = loadCodeFromDataBase.token
+
+      #? Delete verification code
       loadCodeFromDataBase.delete()
-      return 'success'
+
+      #? return value { 'email', 'username', 'phone_number', 'token' }
+      return payload
 
     else:
       nb_attempts = loadCodeFromDataBase.number_of_attempts
@@ -39,6 +49,8 @@ class VerificationCodeController:
         'username': user.username, 
         'phone_number': user.phone_number
       })
+
+      token = token.decode('utf-8')
 
       code = VerificationCode._generateVerificationCode(),
       code = code[0]
