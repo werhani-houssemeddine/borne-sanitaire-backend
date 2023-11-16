@@ -6,9 +6,12 @@ from administration.authentication.Middleware import LoginMiddleware
 from administration.authentication.Middleware import VerificationCodeMiddleware
 from administration.authentication.Middleware import CheckVerificationCodeMiddleware
 
+from administration.account.Middleware import UpdateSuperAdminMiddleware 
+
 from administration.models import Device
 
 from lib.make_request import makeRequest
+from lib.utils        import Authenticate
 
 @api_view(['POST'])
 def login(request):
@@ -32,6 +35,12 @@ def addDevice(request):
   d = Device(version = "1.0.0")
   d.save()
   return Response(status = 201, data = str(d.device_id))
+
+@api_view(['PUT'])
+@Authenticate
+def editSuperAdmin(request):
+  response = makeRequest(request = request, middleware = UpdateSuperAdminMiddleware)
+  return Response(status = response.status_code, data = response.body)
 
 """
 @api_view(['GET'])
