@@ -7,8 +7,10 @@ from client.authentication.Controller.Signup     import SignUpController
 def SignupAdminMiddleware(request: HTTP_REQUEST):
   try:
     device_id = request.query.get('device')
-    if device_id == None:
-      return RESPONSE_SAMPLE.notFound()
+    
+    #! This ckeck is already made in SignupMiddleware 
+    # if device_id == None:
+    #   return RESPONSE_SAMPLE.notFound()
 
     #? CHECK IF THE DEVICE EXIST
     if Device.getDeviceById(device_id) == None:
