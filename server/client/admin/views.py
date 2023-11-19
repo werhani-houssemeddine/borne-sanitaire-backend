@@ -5,6 +5,7 @@ from lib.make_request import makeRequest
 from lib.utils        import Authenticate
 
 from client.agent.Middleware import Agent
+from client.admin.Middleware import DeviceMiddleware
 
 
 @api_view(['PUT'])
@@ -18,4 +19,9 @@ def edit(request):
 #@Authorized('ADMIN')
 def addAgent(request):
     response = makeRequest(request = request, middleware = Agent.add)
+    return Response(status = response.status_code, data = response.body)
+
+@api_view(['GET'])
+def checkDevice(request):
+    response = makeRequest(request = request, middleware = DeviceMiddleware.checkDeviceDisponibility)
     return Response(status = response.status_code, data = response.body)
