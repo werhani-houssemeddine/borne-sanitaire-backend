@@ -48,6 +48,7 @@ class VerificationCodeController:
         'email': user.email, 
         'username': user.username, 
         'phone_number': user.phone_number,
+        'super_admin' : True,
         'id': user.id
       })
 
