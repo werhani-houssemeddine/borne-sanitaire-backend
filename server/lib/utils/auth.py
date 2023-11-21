@@ -20,6 +20,7 @@ def isAuthenticate(callback):
       if headers.Authorization != None:
         payload = Token.getTokenPayload(headers.Authorization)
         if payload:
+          request.session['__currentUser__'] = payload
           return callback(request)
       
       response = RESPONSE_SAMPLE.notAuthorised()
