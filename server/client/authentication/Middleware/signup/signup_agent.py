@@ -37,7 +37,7 @@ def SignupAgentMiddleware(request: HTTP_REQUEST):
     #? CREATE TOKEN
     token = Token.createToken({
       'email'    : email,
-      'agent_id' : user.id,
+      'id' : user.id,
     })
 
     return RESPONSE_SAMPLE.successfullyCreadted({ 'token': token })

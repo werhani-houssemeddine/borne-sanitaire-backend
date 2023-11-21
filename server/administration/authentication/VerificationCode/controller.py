@@ -47,7 +47,8 @@ class VerificationCodeController:
       token = Token.createToken({
         'email': user.email, 
         'username': user.username, 
-        'phone_number': user.phone_number
+        'phone_number': user.phone_number,
+        'id': user.id
       })
 
       token = token.decode('utf-8')

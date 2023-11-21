@@ -33,7 +33,7 @@ def SignupAdminMiddleware(request: HTTP_REQUEST):
     #? CREATE TOKEN
     token = Token.createToken({
       'email'    : email,
-      'admin_id' : user.id,
+      'id' : user.id,
       'device_id': str(device.device_id)
     })
 
