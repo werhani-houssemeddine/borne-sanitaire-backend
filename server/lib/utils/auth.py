@@ -10,6 +10,8 @@ from lib.token                 import Token
 
 from client.Repository         import User as UserRepository
 
+from client.utils import CurrentUser
+
 #? isAuthenticate is a dicorator used for secure endpoint
 #? which mean endpoints need to have an authentication token
 #? payload  
@@ -35,16 +37,17 @@ def isAuthenticate(callback):
             request.session['__currentUser__'] = payload
 
           else:
-            #? Get user role and permissions
-            userData = { 'email': payload.get('email'), 'id': payload.get('id') }
-            
+            #? Get user object            
             client = UserRepository.getUserByEmail(email)
-            userData['user_name'] = client.__dict__.get('user_name')
-            userData['role']      = client.__dict__.get('role')
 
-            #! If userData['role'] == AGENT
-            #! We Have to check the permission table
-            request.session['__currentUser__'] = userData
+            #? check for client role, if it's AGENT we have to add 
+            #? the permissions
+            if client.role == "ADMIN":
+              request.session['__currentUser__'] = CurrentUser(email, client.user_name, id, client.role)
+            else: 
+              #! If userData['role'] == AGENT
+              #! We Have to check the permission table
+              pass
 
           
           return callback(request)
@@ -94,15 +97,19 @@ def isAuthorized(permission):
   def decorator_function(callback):
     def wrapper_function(request, *args, **kwargs):
       try:
-        currentUserData = request.session['__currentUser__']
-        if currentUserData == None or isinstance(currentUserData, dict) == False:
+        currentUserData: CurrentUser = request.session['__currentUser__']
+
+        if currentUserData == None:
           raise Exception()
 
-        role = currentUserData.get('role')
-        if role == permission:
+        role = currentUserData.getRole()
+        if role == 'ADMIN':
           return callback(request)
         else:
-          raise Exception()
+          if role == permission:
+            return callback(request)
+
+        raise Exception()  
 
       except Exception as e:
         response = RESPONSE_SAMPLE.notAuthorised()
