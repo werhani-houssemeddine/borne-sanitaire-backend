@@ -14,6 +14,7 @@ def makeRequest(request, middleware, **args):
     body       = request.data
     path       = request.path
     url        = request.build_absolute_uri()
+    session    = request.session 
     
         
     #! add a function to get querystring parameters
@@ -29,7 +30,8 @@ def makeRequest(request, middleware, **args):
       query      = query,
       body       = body,
       path       = path,
-      url        = url
+      url        = url,
+      session    = session
     )
 
     # Delete currentuser from session before sending the response 
