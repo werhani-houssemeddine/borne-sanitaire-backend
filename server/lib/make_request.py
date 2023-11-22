@@ -32,9 +32,13 @@ def makeRequest(request, middleware, **args):
       url        = url
     )
 
-    # Get the response from the middleware
+    # Delete currentuser from session before sending the response 
+    # to the client
     http_response = middleware(http_request)
+    if "__currentUser__" in request.session.keys():
+      del request.session["__currentUser__"]
 
+    # Get the response from the middleware
     return(HTTP_RESPONSE(
       status_code = http_response['status_code'],
       headers     = None,
