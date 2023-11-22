@@ -3,7 +3,7 @@ from lib.token    import Token
 
 from client.authentication.Controller.Signup     import SignUpController
 
-from client.Repository import RequestAgent
+from client.Repository import RequestAgentRepository
 
 def SignupAgentMiddleware(request: HTTP_REQUEST):
   try:
@@ -12,7 +12,7 @@ def SignupAgentMiddleware(request: HTTP_REQUEST):
       return RESPONSE_SAMPLE.notFound()
 
     #? CHECK IF THE REQUEST AGENT EXIST
-    isRequestAgentEntityExist = RequestAgent.getRequestAgentById(agent_id, "PENDING")
+    isRequestAgentEntityExist = RequestAgentRepository.getRequestAgentById(agent_id, "PENDING")
 
     if isRequestAgentEntityExist == None:
       return RESPONSE_SAMPLE.badRequest({ 'request_agent': 'THIS REQUEST IS NO MORE VALID' })

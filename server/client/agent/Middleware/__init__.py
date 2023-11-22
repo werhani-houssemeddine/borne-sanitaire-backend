@@ -2,11 +2,12 @@ from lib.Http.response_samples import RESPONSE_SAMPLE
 from lib.Http                  import HTTP_REQUEST
 
 from client.agent.Controller   import AgentController
-from client.Repository         import RequestAgent
+from client.Repository         import RequestAgentRepository
 
 from Mail.samples import HTMLSample
 from Mail         import sendHTMLContentEmail
 
+from client.utils import CurrentUser
 class Agent:
 
   #?
@@ -21,10 +22,19 @@ class Agent:
     try:
       email = AgentController.checkEmail(request)
 
+      currentUser: CurrentUser = request.session['__currentUser__']
+
       if email == None:
         return RESPONSE_SAMPLE.badRequest({ 'details': 'EMAIL IS ALREADY USED' })
       
-      requestAgentId = str(RequestAgent.newRequestAgent(email = email , user_id = 2))
+      #? This function create a new request agent object in the database
+      #? it also returns the request_id
+      RequestAgentRepository.newRequestAgent(
+        user_id = currentUser.getId(),
+        email   = email,
+      )
+
+      # requestAgentId = str(RequestAgentRepository.newRequestAgent(email = email , user_id = currentUser.getId()))
       sendHTMLContentEmail("New Sign Up", "Werhani Houssemeddine", [email], HTMLSample.NEW_AGENT_SAMPLE)
       
       return RESPONSE_SAMPLE.successfullyCreadted()
@@ -38,7 +48,7 @@ class Agent:
       return RESPONSE_SAMPLE.notFound()
     
     #? CHECK IF THE REQUEST AGENT EXIST
-    isRequestAgentEntityExist = RequestAgent.getRequestAgentById(agent_id, "PENDING")
+    isRequestAgentEntityExist = RequestAgentRepository.getRequestAgentById(agent_id, "PENDING")
 
     if isRequestAgentEntityExist == None:
       return RESPONSE_SAMPLE.badRequest({ 'request_agent': 'THIS REQUEST IS NO MORE VALID' })
