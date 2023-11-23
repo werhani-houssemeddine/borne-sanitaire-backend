@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="/static/stylesheets/style.css">
 </head>
 <body>
-  <main class="form-container">
+  <!--<main class="form-container">
     <form action="">
       <div class="input-container">
         <div>
@@ -34,9 +34,58 @@
         </div>
       </div>
     </form>
-  </main>
-  <script src="/static/scripts/form.js">
+  </main>-->
+  <main id="main-container" class="wait_background">
 
-  </script>
+  </main>
+  <template id="add-agent-template">
+    <form action="">
+      <div class="input-container">
+        <div>
+          <label for="user_name">Username</label>
+        </div>
+        <div>
+          <input type="text" name="user_name" id="user_name" placeholder="Enter Your Username">
+          <p class="error-input-message username-error"></p>
+        </div>
+      </div>
+      <div class="input-container">
+        <div>
+          <label for="password">Password</label>
+        </div>
+        <div>
+          <input type="password" name="password" id="password" placeholder="Enter Your Password" minlength="10">
+          <p class="error-input-message password-error"></p>
+        </div>
+      </div>
+      <div class="buttons-container">
+        <div class="cancel-btn">
+          <button class="cancel">Cancel</button>
+        </div>
+        <div class="submit-btn">
+          <button type="submit" class="submit">Submit</button>
+        </div>
+      </div>
+    </form>
+  </template>
+
+  <template id="reject-agent-template">
+    <p class="">
+      We regret to inform you that we are rejecting this request. 
+      We will notify the sender accordingly. We appreciate your understanding
+      and hope for another opportunity to be of service in the future.
+    </p>
+  </template>
+
+  <template id="invalid-id-template">
+    <p class="invalid_id">
+      We regret to inform you that your request is considered outdated and cannot be processed in its current form.
+      We appreciate your understanding, if you have any questions or require further clarification, please call
+      your associations.
+    </p>
+  </template>
+
+  <script src="/static/scripts/init.js"></script>
+  <script src="/static/scripts/form.js"></script>
 </body>
 </html>

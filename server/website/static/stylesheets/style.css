@@ -12,11 +12,23 @@ body{
   place-items: center;
 }
 
-.form-container{
+#main-container{
   width: 500px;
+  min-height: 100px;
   padding: 20px 30px;
   border: 2px solid rgba(0, 0, 0, 0.443);
   border-radius: 7px;
+}
+
+.wait_background{
+  background-image: linear-gradient(
+        90deg,
+        #EEEEEE 0%, #EEEEEE 40%,
+        #DDDDDD 50%, #DDDDDD 55%,
+        #EEEEEE 65%, #EEEEEE 100%
+    );
+  background-size: 400%;
+  animation: gradientAnimation 2000ms infinite;
 }
 
 input{
@@ -72,4 +84,19 @@ button{
 .submit:hover{
   color: rgb(0, 220, 0);
   background-color: white;
+}
+
+
+.invalid_id{
+  font-size: 1.4rem;
+  font-family: system-ui;
+  text-align: justify;
+  font-style: italic;
+  font-weight: 500
+}
+
+
+@keyframes gradientAnimation {
+    from {background-position: 100% 100%;}
+    to   {background-position: 0 0;}
 }

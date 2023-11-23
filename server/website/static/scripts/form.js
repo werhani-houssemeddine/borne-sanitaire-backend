@@ -1,22 +1,28 @@
-const form = document.querySelector('form');
-if (form != null) {
-  const user_name = form.querySelector('#user_name');
-  const password  = form.querySelector('#password');
+function addForm() {
+  try {
+    const form = document.querySelector('form');
+    if (form != null) {
+      const user_name = form.querySelector('#user_name');
+      const password  = form.querySelector('#password');
 
-  if(user_name != null && password != null) {
+      if(user_name != null && password != null) {
 
-    const agentQuery = getQueries();
+        const queries = Utils.getQueries();
 
-    if(agentQuery === null) {
-      console.error("ERROR OCCURED WHEN PARSING THE URL");
-      setTimeout(() => window.close(), 2000); //! Close the window after 2s
-    } else {
-      form.addEventListener('submit', handleSubmitForm(user_name, password, agentQuery));
+        if(queries === null) throw new Error();
+        if(queries.reject === "true") return handleRejection();
+
+        form.addEventListener('submit', handleSubmitForm(user_name, password));
+        return;
+      }
     }
 
-  } else {
-    console.error("ONE OF THE USERNAME OR PASSWORD IS MISSING");
-  }
+    throw new Error();
+
+  } catch (error) {
+    console.error({ error: "FORM ERROR "});
+    throw error;
+  } 
 }
 
 function handleSubmitForm(user_name, password) {
@@ -45,67 +51,64 @@ function handleSubmitForm(user_name, password) {
     if(validInputs === true){
 
       try{
-        const response = await fetch(constructURL('/api/client/signup/'), {
+        const response = await fetch(Utils.constructURL('/api/client/signup/'), {
           method : 'POST',
           body   : JSON.stringify(userData),
           headers: { 'Content-Type': 'application/json' }
         });
   
-        const data = await response.json();
-        alert("SIGN UP SUCCESSFULLY")
-        setTimeout(() => window.close(), 3000);
-        //! SIGN UP SUCCESSFULLY
+        if (response.status >= 200 && response.status <= 299) {
+
+        }
+        
+        throw new Error();
+        
       } catch (error) {
         //! INVALID SIGN UP
       }
       
     } else {
-      console.log({ userData });
-      console.error("DATA INVALID");
+      if(getUserNameLength < 4) {
+        const usernameErrorMessageContainer = document.querySelector('.username-error');
+
+        usernameErrorMessageContainer.textContent = 'Invalid Username'
+        usernameErrorMessageContainer.classList.remove('hidden');
+      } else {
+        const passwordErrorMessageContainer = document.querySelector('.password-error');
+
+        passwordErrorMessageContainer.textContent = 'Invalid Password length'
+        passwordErrorMessageContainer.classList.remove('hidden');
+      }
     }
   }
 }
 
-function getQueries() {
-  const url = document.location.search.replace('?', '');
-  
-  if (url === "") return null;
-
-  return url.split('&').map(element => {
-    if(element !== undefined) {
-      element = element.split("=");
-      return { [element[0]]: element[1] }
+function handleRejection(agent_id) {
+  sendRejectRequest(agent_id).then(res => {
+    let messageToShow = '';
+    if (res === "SUCCESS") {
+      messageToShow = `We regret to inform you that we are rejecting this request. 
+                       We will notify the sender accordingly. We appreciate your understanding
+                       and hope for another opportunity to be of service in the future.`;
+    } else {
+      messageToShow = `Your submission has been refused. Please try again later. 
+                       We apologize for any inconvenience this may have caused`;
     }
-  });
+
+    Template.addContentToTemplate(messageToShow);
+
+  }).catch(() => {}); 
 }
 
-function getAgentId(agentQuery) {
-  
-  if (agentQuery === null) return null;
-
-  for(let q of agentQuery) {
-    if('agent' in q && q['agent'] !== undefined) {
-      return q['agent'];
+async function sendRejectRequest(agent_id) {
+  try {
+    await fetch(constructURL(`/api/client/agent/reject/&agent=${agent_id}`));
+    if(response === 204) {
+      return "SUCCESS";
+    } else {
+      return "FAILLURE";
     }
+  } catch (error) {
+    return "FAILLURE";
   }
 }
-
-function constructURL(endpoint) {
-  const BASE_URL    = location.origin;
-
-  const AGENT_QUERY = { agent: getAgentId(getQueries()) };
-  const queryString = Object.keys(AGENT_QUERY)
-                            .map(key => `${key}=${encodeURIComponent(AGENT_QUERY[key])}`)
-                            .join('&');
-
-  return `${BASE_URL}${endpoint}?${queryString}`;
-}
-
-window.addEventListener('load', async() => {
-  const response = await fetch(constructURL('/api/client/agent/check-request-agent/'));
-  if(response.status === 200){
-    alert('valid id');
-  } else {
-    alert('not valid id');
-  }
-});
