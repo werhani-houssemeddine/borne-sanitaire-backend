@@ -70,6 +70,16 @@ class Agent:
     pass
 
   def rejectRequest(reqest: HTTP_REQUEST):
-    print(reqest.params)
-    pass
-  
+    agent_id = reqest.params.get('id')
+    if agent_id == None:
+      return RESPONSE_SAMPLE.notFound()
+    
+    isRequestAgentEntityExist = RequestAgentRepository.getRequestAgentById(agent_id, "PENDING")
+    if isRequestAgentEntityExist == None:
+      return RESPONSE_SAMPLE.badRequest({ 'request_agent': 'THIS REQUEST IS NO MORE VALID' })
+    
+    isRequestAgentEntityExist.state = 'REJECT'
+    isRequestAgentEntityExist.save()
+    
+    return RESPONSE_SAMPLE.ok()
+
