@@ -71,7 +71,7 @@ def generateEmailContent(full_name, link):
       <a href="http://{link}" class="complete-sign-up">complete</a>
     </p>
     <p>If you want to reject the invitation, please click the button below:</p>
-    <a href=  "http://${link}&reject=true" class="button-link">Reject</a>
+    <a href="http://{link}&reject=true" class="button-link">Reject</a>
   """
 
 
