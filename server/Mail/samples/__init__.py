@@ -12,5 +12,6 @@ class HTMLSample:
     return generateVerificationCodeTemplate(code)
   
   @staticmethod
-  def NEW_AGENT_SAMPLE(full_name):
-    return generateAddAgentTemplate(full_name = full_name, link = "")
+  def NEW_AGENT_SAMPLE(message):
+    link = message['host'] + '/agent-request/?agent=' + message['request_id']
+    return generateAddAgentTemplate(full_name = message['username'], link = link)
