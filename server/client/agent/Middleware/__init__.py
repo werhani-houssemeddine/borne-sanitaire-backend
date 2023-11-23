@@ -29,13 +29,18 @@ class Agent:
       
       #? This function create a new request agent object in the database
       #? it also returns the request_id
-      RequestAgentRepository.newRequestAgent(
+      request_id = RequestAgentRepository.newRequestAgent(
         user_id = currentUser.getId(),
         email   = email,
       )
 
-      # requestAgentId = str(RequestAgentRepository.newRequestAgent(email = email , user_id = currentUser.getId()))
-      sendHTMLContentEmail("New Sign Up", "Werhani Houssemeddine", [email], HTMLSample.NEW_AGENT_SAMPLE)
+      messageContent = {
+        'username': currentUser.getUsername(),
+        'request_id': str(request_id),
+        'host': request.ip + ":8000"
+      }
+
+      sendHTMLContentEmail("New Sign Up", messageContent, [email], HTMLSample.NEW_AGENT_SAMPLE)
       
       return RESPONSE_SAMPLE.successfullyCreadted()
 
