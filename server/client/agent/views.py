@@ -29,3 +29,8 @@ def deleteAgent(request):
 def checkRequestedAgent(request):
   response = makeRequest(request = request, middleware = Agent.checkRequestAgent)
   return Response(status = response.status_code, data = response.body)
+
+@api_view(['GET'])
+def rejectRequestAgent(request, id):
+  response = makeRequest(request = request, middleware = Agent.rejectRequest, id = id)
+  return Response(status = response.status_code, data = response.body)
