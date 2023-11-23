@@ -17,8 +17,6 @@ def makeRequest(request, middleware, **args):
     session    = request.session 
     
         
-    #! add a function to get querystring parameters
-    #! add args for to params
 
     # Create a request to use send it instead of the origin request
     # send it with the middleware function (it's the api controller)
