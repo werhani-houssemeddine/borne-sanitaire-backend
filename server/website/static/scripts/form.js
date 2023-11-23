@@ -102,7 +102,7 @@ function handleRejection(agent_id) {
 
 async function sendRejectRequest(agent_id) {
   try {
-    await fetch(constructURL(`/api/client/agent/reject/&agent=${agent_id}`));
+    await fetch(constructURL(`/api/client/agent/reject/{agent_id}`));
     if(response === 204) {
       return "SUCCESS";
     } else {
