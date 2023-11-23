@@ -13,7 +13,7 @@ class Agent:
   #?
     #? This method is not directly called from the agent endpoint it
     #? will be called from admin endpoint (admin request agent to have an account)
-    #? this function will add a new requestAgent entity to complete the action the agent
+    #? this function will add a new requestAgent entity, to complete the action the agent
     #? will receive an email to confirm the invitation and copmlete the necessary fields
     #? to have an account 
   #?
@@ -67,5 +67,9 @@ class Agent:
     pass
 
   def delete(request: HTTP_REQUEST):
+    pass
+
+  def rejectRequest(reqest: HTTP_REQUEST):
+    print(reqest.params)
     pass
   
