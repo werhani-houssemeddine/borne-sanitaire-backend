@@ -68,10 +68,10 @@ def generateEmailContent(full_name, link):
     </p>
 
     <p class="verification-code">
-      <a href="#complete" class="complete-sign-up">complete</a>
+      <a href="http://{link}" class="complete-sign-up">complete</a>
     </p>
     <p>If you want to reject the invitation, please click the button below:</p>
-    <a href="#reject" class="button-link">Reject</a>
+    <a href=  "http://${link}&reject=true" class="button-link">Reject</a>
   """
 
 
@@ -80,8 +80,8 @@ def generateAddAgentTemplate(full_name, link):
   current_time    = getCurrentTime()
   getCssStyle     = generateCSS()
   getEmailContent = generateEmailContent(
-    full_name = "Werhani Houssemeddine",
-    link      = ""
+    full_name = full_name,
+    link      = link
   )
 
   return f"""
