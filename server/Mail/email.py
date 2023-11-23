@@ -54,5 +54,5 @@ def sendHTMLContentEmail(subject, message, recipients, html_message_sample):
     html_message   = html_message_sample(message),
     from_email     = settings.EMAIL_HOST_USER,
     subject        = subject,
-    message        = message,
+    message        = str(message),
   )
