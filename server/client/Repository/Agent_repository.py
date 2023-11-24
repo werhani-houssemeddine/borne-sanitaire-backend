@@ -27,8 +27,15 @@ class RequestAgent:
       return None
     
   @staticmethod
-  def getRequestAgentById(id, state = "PENDING"):
+  def getPendingRequestAgentById(id):
     try:
-      return RequestAgentTable.objects.get(request_id = id, state = state)
+      return RequestAgentTable.objects.get(request_id = id, state = "PENDING")
+    except Exception as e:
+      return None
+    
+  @staticmethod
+  def getRequestAgentById(id):
+    try:
+      return RequestAgentTable.objects.get(request_id = id)
     except Exception as e:
       return None

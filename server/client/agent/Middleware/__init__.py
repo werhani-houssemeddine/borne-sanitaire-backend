@@ -53,7 +53,7 @@ class Agent:
       return RESPONSE_SAMPLE.notFound()
     
     #? CHECK IF THE REQUEST AGENT EXIST
-    isRequestAgentEntityExist = RequestAgentRepository.getRequestAgentById(agent_id, "PENDING")
+    isRequestAgentEntityExist = RequestAgentRepository.getPendingRequestAgentById(agent_id)
 
     if isRequestAgentEntityExist == None:
       return RESPONSE_SAMPLE.badRequest({ 'request_agent': 'THIS REQUEST IS NO MORE VALID' })
@@ -74,7 +74,7 @@ class Agent:
     if agent_id == None:
       return RESPONSE_SAMPLE.notFound()
     
-    isRequestAgentEntityExist = RequestAgentRepository.getRequestAgentById(agent_id, "PENDING")
+    isRequestAgentEntityExist = RequestAgentRepository.getPendingRequestAgentById(agent_id)
     if isRequestAgentEntityExist == None:
       return RESPONSE_SAMPLE.badRequest({ 'request_agent': 'THIS REQUEST IS NO MORE VALID' })
     
@@ -83,3 +83,14 @@ class Agent:
     
     return RESPONSE_SAMPLE.ok()
 
+  def getOneAgentData(request: HTTP_REQUEST):
+    clientId = CurrentUser.getId()
+    agentId  = request.params.get('id')
+
+    if agentId == None:
+      return RESPONSE_SAMPLE.badRequest({ 'details': 'MISSING AGENT ID' })
+    
+    RequestAgentRepository.getRequestAgentById(agentId, "ACCEPT")
+
+  def getListOfAgents(request: HTTP_REQUEST):
+    pass
