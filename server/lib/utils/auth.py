@@ -43,19 +43,18 @@ def isAuthenticate(callback):
             #? check for client role, if it's AGENT we have to add 
             #? the permissions
             if client.role == "ADMIN":
-              request.session['__currentUser__'] = CurrentUser(email, client.user_name, id, client.role)
+              request.session['__currentUser__'] = CurrentUser(email, client.user_name, id, client.role).__dict__
             else: 
               #! If userData['role'] == AGENT
               #! We Have to check the permission table
               pass
 
           
-          return callback(request)
+          return callback(request, *args, **kwargs)
       
       raise Exception()  
     
     except Exception as e:
-      print(e)
       response = RESPONSE_SAMPLE.notAuthorised()
       return Response(status = response['status_code'], data = response['body'])
 
@@ -97,17 +96,17 @@ def isAuthorized(permission):
   def decorator_function(callback):
     def wrapper_function(request, *args, **kwargs):
       try:
-        currentUserData: CurrentUser = request.session['__currentUser__']
+        currentUserData: CurrentUser = request.session.get('__currentUser__')
 
         if currentUserData == None:
           raise Exception()
 
-        role = currentUserData.getRole()
+        role = currentUserData['role']
         if role == 'ADMIN':
-          return callback(request)
+            return callback(request, *args, **kwargs)
         else:
           if role == permission:
-            return callback(request)
+            return callback(request, *args, **kwargs)
 
         raise Exception()  
 
