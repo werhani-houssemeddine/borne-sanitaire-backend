@@ -31,7 +31,7 @@ class User(models.Model):
     null       = False
   )
 
-  user_id = models.ForeignKey('self', on_delete= models.CASCADE, default = None, null=True)
+  # user_id = models.ForeignKey('self', on_delete= models.CASCADE, default = None, null=True)
 
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True) 
