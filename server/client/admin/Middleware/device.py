@@ -1,4 +1,4 @@
-from lib.Http import HTTP_REQUEST, RESPONSE_SAMPLE
+from lib.HTTP import HTTP_REQUEST, RESPONSE_SAMPLE
 
 from client.admin.Controller import DeviceController
 

@@ -1,4 +1,4 @@
-from lib.Http.http_request     import HTTP_REQUEST
+from lib.HTTP.http_request     import HTTP_REQUEST
 from .bussinessLayer           import validateAgentData
     
 from client.Repository import User, RequestAgentRepository

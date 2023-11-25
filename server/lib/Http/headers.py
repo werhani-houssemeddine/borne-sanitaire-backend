@@ -1,4 +1,4 @@
-class RequestHeaders:
+class REQUEST_HEADERS:
   def __init__(self, headers: dict) -> None:
     self.contentLength = headers.get('Content-Length')
     self.contentType   = headers.get('Content-Type')

@@ -1,4 +1,4 @@
-from lib.Http import HTTP_REQUEST, RESPONSE_SAMPLE
+from lib.HTTP import HTTP_REQUEST, RESPONSE_SAMPLE
 
 from .signup_admin import SignupAdminMiddleware
 from .signup_agent import SignupAgentMiddleware

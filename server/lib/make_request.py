@@ -1,13 +1,19 @@
-from lib.Http.http_request  import HTTP_REQUEST
-from lib.Http.http_response import HTTP_RESPONSE
-from lib.Http.http_response import HTTP_RESPONSE_BODY
-from lib.Http.headers       import RequestHeaders
+from lib.HTTP  import HTTP_REQUEST, HTTP_RESPONSE, REQUEST_HEADERS, RESPONSE_SAMPLE
+
+from rest_framework.response   import Response
+
+def returnHttpResponse(http_response: HTTP_RESPONSE) -> Response:
+  return Response(
+    status  = http_response.status_code,
+    data    = http_response.body.toJson(),
+    headers = http_response.headers
+  )
 
 def makeRequest(request, middleware, **args):
   try:
     # Extract request information from the Django HTTP request
     ip_address = request.META.get('REMOTE_ADDR')
-    headers    = RequestHeaders(request.headers)
+    headers    = REQUEST_HEADERS(request.headers)
     method     = request.method
     params     = args
     query      = request.GET.dict()
@@ -31,32 +37,16 @@ def makeRequest(request, middleware, **args):
     )
 
     # Delete currentuser from session before sending the response to the client
-    http_response = middleware(http_request)
     if "__currentUser__" in request.session:
       current_user = request.session.pop("__currentUser__")
     else:
       current_user = None
 
-    # Get the response from the middleware
-    return HTTP_RESPONSE(
-      status_code=http_response['status_code'],
-      headers    =None,
-      body       = HTTP_RESPONSE_BODY.build(http_response['body'])
-    )
+    # return the response from the middleware
+    # http_response: HTTP_RESPONSE = middleware(http_request)
+    return returnHttpResponse(middleware(http_request)) 
 
   except Exception as e:
-
     # Return a generic error response
-    return HTTP_RESPONSE(
-      status_code = 500,
-      headers     = None,
-      body        = HTTP_RESPONSE_BODY.build({
-        "message": "Internal Server Error",
-        "error": True,
-        "state": "failure",
-        "data": {
-          'details': str(e)
-        }
-      })
-    )
+    return returnHttpResponse(RESPONSE_SAMPLE.SERVER_ERROR())   
   

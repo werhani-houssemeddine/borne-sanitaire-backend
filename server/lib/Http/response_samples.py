@@ -1,85 +1,53 @@
-#
-  # This class will have some repsonse sample like 404, 400 ...
-#
+from lib.HTTP import HTTP_RESPONSE
+
 class RESPONSE_SAMPLE:
   @staticmethod
-  def badRequest(details: dict = None):
-    response = {
-        'status_code': 400,
-        'body'       : {
-          'message' : 'Bad Request',
-          'state'   : 'failure',
-          'error'   : True,
-        }
-      }
-    
-    # Add property data if details is a dict
-    if isinstance(details, dict):
-      response["body"]["data"] = details
+  def BAD_REQUEST(details: dict = None) -> HTTP_RESPONSE:
+    return HTTP_RESPONSE().withBody(
+      message  = "Bad Request",
+      state    = "failure",
+      error    = True,
+      data     = details
+  ).withHeaders(content_type = "application/json").withStatus(400)
 
-    return response
-  
   @staticmethod
-  def notFound():
-    return {
-      'status_code': 404,
-      'body'       : {
-        'message' : 'NOT FOUND',
-        'state'   : 'failure',
-        'error'   : True,
-      }
-    }
-  
-  @staticmethod
-  def serverError():
-    return {
-      'status_code': 500,
-      'body'       : {
-        'message' : 'INTERNAL SERVER ERROR',
-        'state'   : 'failure',
-        'error'   : True,
-      }
-    }
-  
-  @staticmethod
-  def successfullyCreadted(details: dict = None):
-    response = {
-      'status_code': 201,
-      'body'       : {
-        'message': 'CREATED SUCCESSFULLY',
-        'state'  : 'SUCCESS',
-        'error'  : False,
-      }
-    }
+  def NOT_FOUND() -> HTTP_RESPONSE:
+    return HTTP_RESPONSE().withBody(
+      message  = "NOT FOUND",
+      state    = "failure",
+      error    = True
+    ).withHeaders(content_type = "application/json").withStatus(404)
 
-    if isinstance(details, dict):
-      response['body']['data'] = details
-
-    return response
-  
   @staticmethod
-  def notAuthorised():
-    return {
-      'status_code': 401,
-      'body'       : {
-        'message': 'UNAUTHORISED',
-        'state'  : 'failure',
-        'error'  : True,
-      }
-    }
-  
+  def SERVER_ERROR() -> HTTP_RESPONSE:
+    return HTTP_RESPONSE().withBody(
+      message  = "INTERNAL SERVER error   ",
+      state    = "failure",
+      error    = True
+    ).withHeaders(content_type = "application/json").withStatus(500)
+
   @staticmethod
-  def ok(data = None):
-    response = {
-      'status_code': 200,
-      'body'       : {
-        'message': 'OK',
-        'state'  : 'success',
-        'error'  : False,
-      }
-    }
+  def CREATED(details: dict = None) -> HTTP_RESPONSE:
+    return HTTP_RESPONSE().withBody(
+      message  = "CREATED SUCCESSFULLY",
+      state    = "SUCCESS",
+      error    = False,
+      data     = details
+    ).withHeaders(content_type = "application/json").withStatus(201)
 
-    if data != None:
-      response['body']['data'] = data
+  @staticmethod
+  def NOT_AUTHORIZED() -> HTTP_RESPONSE:
+    return HTTP_RESPONSE().withBody(
+      message  = "UNAUTHORIZED",
+      state    = "failure",
+      error    = True
+    ).withHeaders(content_type = "application/json").withStatus(401)
 
-    return response
+  @staticmethod
+  def OK(data = None) -> HTTP_RESPONSE:
+    return HTTP_RESPONSE().withBody(
+      message  = "OK",
+      state    = "success",
+      error    = False,
+      data     = data    
+    ).withHeaders(content_type = "application/json").withStatus(200)

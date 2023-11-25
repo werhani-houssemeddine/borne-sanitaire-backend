@@ -8,44 +8,46 @@ class HTTP_RESPONSE_BODY:
     self.state   = state
     self.data    = data
 
-  @staticmethod
-  def build(body_response: dict):
-    response = HTTP_RESPONSE_BODY()
+  @classmethod
+  def build(cls, body_response: dict) -> 'HTTP_RESPONSE_BODY':
+    response = cls()
 
-    if 'message' in body_response:
-      response.message = body_response['message']
+    response.message = body_response.get('message', response.message)
+    response.error   = body_response.get('error', response.error)
+    response.state   = body_response.get('state', response.state).upper()
 
-    if 'error' in body_response:
-      if isinstance(body_response['error'], bool):
-        response.error = body_response['error']
+    if response.state not in {'SUCCESS', 'FAILURE'}:
+      response.state = 'SUCCESS'
 
-    if 'state' in body_response:
-      state = body_response['state'].upper()
-      if state == 'SUCCESS' or state == 'FAILURE':
-        response.state = state
-
-    if 'data' in body_response:
-      response.data = body_response['data']
-    else:
-      response.__delattr__('data')
+    response.data = body_response.get('data', response.data)
 
     return response
 
-  @staticmethod
-  def toJson(response_body):
-    if isinstance(response_body, HTTP_RESPONSE_BODY) == False:
-      raise ValueError('Only converting HTTP_RESPONSE_BODY instances')
-    
-    return response_body.__dict__
+
+  def toJson(self) -> dict:
+    return self.__dict__
+
+class HTTP_HEADER_RESPONSE:
+  def __init__(self, contentType = "application/json")-> None:
+    self.contentType = contentType
 
 
 # this class will be the response returned from makeRequest function
 class HTTP_RESPONSE:
-  def __init__(self, status_code, headers, body: HTTP_RESPONSE_BODY):
-    self.status_code = status_code or 200
-    self.headers     = headers
-    self.body        = HTTP_RESPONSE_BODY.toJson(body)
+  def __init__(self, body = None, headers = None, status_code = 200):
+    self.body        = body if body is not None else HTTP_RESPONSE_BODY()
+    self.headers     = headers if headers is not None else HTTP_HEADER_RESPONSE()
+    self.status_code = 200
 
-  def _addJsonHeaders(self):
-    pass
+  def withBody(self, message = "", error = False, state = "success", data = {}):
+    self.body = HTTP_RESPONSE_BODY(message, error, state, data)
+    return self
 
+  def withHeaders(self, content_type = "application/json"):
+    self.headers = HTTP_HEADER_RESPONSE(content_type)
+    return self
+  
+  def withStatus(self, status_code = 200):
+    self.status_code = status_code
+    return self
+  

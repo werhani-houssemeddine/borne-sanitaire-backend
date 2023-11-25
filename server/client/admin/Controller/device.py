@@ -1,4 +1,4 @@
-from lib.Http import HTTP_REQUEST
+from lib.HTTP import HTTP_REQUEST
 from client.Repository import Device as DeviceTable
 
 class DeviceController:

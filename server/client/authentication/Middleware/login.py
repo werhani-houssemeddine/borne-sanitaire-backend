@@ -1,4 +1,4 @@
-from lib.Http     import HTTP_REQUEST, RESPONSE_SAMPLE
+from lib.HTTP     import HTTP_REQUEST, RESPONSE_SAMPLE
 
 from client.authentication.Controller.Login import LoginController
 
