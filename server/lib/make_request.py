@@ -1,5 +1,14 @@
 from lib.HTTP  import HTTP_REQUEST, HTTP_RESPONSE, REQUEST_HEADERS, RESPONSE_SAMPLE
 
+from rest_framework.response   import Response
+
+def returnHttpResponse(http_response: HTTP_RESPONSE) -> Response:
+  return Response(
+    status  = http_response.status_code,
+    data    = http_response.body.toJson(),
+    headers = http_response.headers
+  )
+
 def makeRequest(request, middleware, **args):
   try:
     # Extract request information from the Django HTTP request
@@ -34,13 +43,10 @@ def makeRequest(request, middleware, **args):
       current_user = None
 
     # return the response from the middleware
-    #! Here we should convert the returned middleware response 
-    #! to django http.response instead
-    return middleware(http_request)
-
+    # http_response: HTTP_RESPONSE = middleware(http_request)
+    return returnHttpResponse(middleware(http_request)) 
 
   except Exception as e:
     # Return a generic error response
-    return RESPONSE_SAMPLE.SERVER_ERROR()
-    
+    return returnHttpResponse(RESPONSE_SAMPLE.SERVER_ERROR())   
   
