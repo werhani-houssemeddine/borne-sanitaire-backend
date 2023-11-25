@@ -1,7 +1,7 @@
 from lib.HTTP.http_request     import HTTP_REQUEST
 from .bussinessLayer           import validateAgentData
     
-from client.Repository import User, RequestAgentRepository
+from client.Repository import UserRepository, RequestAgentRepository
 
 class AgentController:
   #? checkEmail function will validate the email than will check
@@ -13,7 +13,7 @@ class AgentController:
   def checkEmail(request: HTTP_REQUEST):
     try:
       email = validateAgentData(request.body["email"])
-      isEmailUsed = User.getUserByEmail(email)
+      isEmailUsed = UserRepository.getUserByEmail(email)
       isEmailUsedToRequestAgent = RequestAgentRepository.getRequestAgentByEmail(email)
       
       checkingEmailResult = isEmailUsed or isEmailUsedToRequestAgent

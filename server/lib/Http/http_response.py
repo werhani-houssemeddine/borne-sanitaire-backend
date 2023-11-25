@@ -44,7 +44,7 @@ class HTTP_RESPONSE:
     return self
 
   def withHeaders(self, content_type = "application/json"):
-    self.headers = HTTP_HEADER_RESPONSE(content_type)
+    self.headers =  None #HTTP_HEADER_RESPONSE(content_type)
     return self
   
   def withStatus(self, status_code = 200):

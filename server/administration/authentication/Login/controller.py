@@ -1,4 +1,4 @@
-from lib.Http.http_request import HTTP_REQUEST
+from lib.HTTP import HTTP_REQUEST
 from .business_logic    import LoginBusinessLayer
 from administration.models import SuperAdmin as SuperAdminTable
     
