@@ -10,7 +10,7 @@ def LoginMiddleware(request: HTTP_REQUEST) -> HTTP_RESPONSE:
 
     if user != None:
       return RESPONSE_SAMPLE.OK(
-        dat = {
+        data = {
           'username': user.user_name,
           'isAdmin' : user.role == "ADMIN",
           'isAgent' : user.role == "AGENT",
