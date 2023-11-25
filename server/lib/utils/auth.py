@@ -4,8 +4,8 @@
 
 from rest_framework.response   import Response
 
-from lib.Http.response_samples import RESPONSE_SAMPLE
-from lib.Http.headers          import RequestHeaders
+from lib.HTTP.response_samples import RESPONSE_SAMPLE
+from lib.HTTP.headers          import RequestHeaders
 from lib.token                 import Token
 
 from client.Repository         import User as UserRepository

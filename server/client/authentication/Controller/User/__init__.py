@@ -1,5 +1,5 @@
-from lib.Http.headers import RequestHeaders
-from lib.Http         import HTTP_REQUEST
+from lib.HTTP.headers import RequestHeaders
+from lib.HTTP         import HTTP_REQUEST
 from lib.token        import Token
 
 def getToken(headers: RequestHeaders) -> str:

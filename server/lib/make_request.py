@@ -1,7 +1,7 @@
-from lib.Http.http_request  import HTTP_REQUEST
-from lib.Http.http_response import HTTP_RESPONSE
-from lib.Http.http_response import HTTP_RESPONSE_BODY
-from lib.Http.headers       import RequestHeaders
+from lib.HTTP.http_request  import HTTP_REQUEST
+from lib.HTTP.http_response import HTTP_RESPONSE
+from lib.HTTP.http_response import HTTP_RESPONSE_BODY
+from lib.HTTP.headers       import RequestHeaders
 
 def makeRequest(request, middleware, **args):
   try:

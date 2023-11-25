@@ -1,4 +1,4 @@
-from lib.Http import HTTP_REQUEST, RESPONSE_SAMPLE
+from lib.HTTP import HTTP_REQUEST, RESPONSE_SAMPLE
 
 from administration.account.Controller import updateSuperAdminPhonenumber
 from administration.account.Controller import updateSuperAdminUsername
