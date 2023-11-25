@@ -2,7 +2,7 @@ from .User_repository import User
 from client.models    import RequestAgent as RequestAgentTable
 
 
-class RequestAgent:
+class RequestAgentRepository:
   @staticmethod
   def newRequestAgent(email, user_id):
     try:

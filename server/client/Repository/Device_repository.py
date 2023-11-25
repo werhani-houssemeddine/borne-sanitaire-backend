@@ -1,7 +1,7 @@
 from administration.models import Device as DeviceTable
 from django.utils          import timezone 
 
-class Device:
+class DeviceRepository:
   @staticmethod
   def addDevice(device_id, user):
     try:
