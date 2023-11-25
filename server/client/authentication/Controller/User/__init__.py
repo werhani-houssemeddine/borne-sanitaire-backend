@@ -1,8 +1,8 @@
-from lib.HTTP.headers import RequestHeaders
+from lib.HTTP.headers import REQUEST_HEADERS
 from lib.HTTP         import HTTP_REQUEST
 from lib.token        import Token
 
-def getToken(headers: RequestHeaders) -> str:
+def getToken(headers: REQUEST_HEADERS) -> str:
   return headers.Authorization
 
 #? This controller will just return the user info
