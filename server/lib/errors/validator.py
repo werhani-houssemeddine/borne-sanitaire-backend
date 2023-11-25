@@ -20,6 +20,17 @@ class Validator:
     
     return self
   
+  def check_not_empty(self, field) -> 'Validator':
+    value = self.data.get(field)
+    if isinstance(value, str):
+      if len(value.strip()) != 0:
+        return self
+      
+    raise ValidationError(
+      field   = field, 
+      message = "This property is required"
+    )
+  
   def check_email(self, field) -> 'Validator':
     value = self.data.get(field)
     
