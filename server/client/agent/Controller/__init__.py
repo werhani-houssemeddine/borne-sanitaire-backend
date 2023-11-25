@@ -13,7 +13,7 @@ class AgentController:
   def checkEmail(request: HTTP_REQUEST):
     try:
       email = validateAgentData(request.body["email"])
-      isEmailUsed = User.getUserByEmail(email)
+      isEmailUsed = UserRepository.getUserByEmail(email)
       isEmailUsedToRequestAgent = RequestAgentRepository.getRequestAgentByEmail(email)
       
       checkingEmailResult = isEmailUsed or isEmailUsedToRequestAgent

@@ -1,5 +1,5 @@
-from lib.Http.response_samples import RESPONSE_SAMPLE
-from lib.Http                  import HTTP_REQUEST
+from lib.HTTP.response_samples import RESPONSE_SAMPLE
+from lib.HTTP                  import HTTP_REQUEST
 
 from client.agent.Controller   import AgentController
 from client.Repository         import RequestAgentRepository
@@ -84,13 +84,22 @@ class Agent:
     return RESPONSE_SAMPLE.ok()
 
   def getOneAgentData(request: HTTP_REQUEST):
-    clientId = CurrentUser.getId()
+    clientId = request.session.get('__currentUser__')['id']
     agentId  = request.params.get('id')
-
+    
     if agentId == None:
       return RESPONSE_SAMPLE.badRequest({ 'details': 'MISSING AGENT ID' })
+        
+    requestedAgent = RequestAgentRepository.getRequestAgentById(agentId)
     
-    RequestAgentRepository.getRequestAgentById(agentId, "ACCEPT")
+    if requestedAgent == None:
+      return RESPONSE_SAMPLE.badRequest({ 'details': 'INVALID AGENT ID' })
+    
+    if requestedAgent.user_id != clientId:
+      return RESPONSE_SAMPLE.notAuthorised()
+    
+    print(requestedAgent)
+    return RESPONSE_SAMPLE.ok({ 'agent': '' })
 
   def getListOfAgents(request: HTTP_REQUEST):
     pass
