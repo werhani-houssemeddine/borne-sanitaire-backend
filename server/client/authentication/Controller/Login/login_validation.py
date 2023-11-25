@@ -29,7 +29,7 @@ class LoginControllerValidator:
         return None
       
       if user.email == self.email and self.__checkPassword(user.password):
-        return UserModel
+        return user
       
       return None
     
