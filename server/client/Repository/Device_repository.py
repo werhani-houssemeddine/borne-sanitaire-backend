@@ -1,5 +1,8 @@
+from lib.errors import ValidationError
+
 from administration.models import Device as DeviceTable
 from django.utils          import timezone 
+
 
 class DeviceRepository:
   @staticmethod
@@ -19,5 +22,5 @@ class DeviceRepository:
   def getDeviceById(device_id):
     try:
       return DeviceTable.objects.get(device_id = device_id, is_saled = False)
-    except Exception:
-      return None
+    except Exception as e:
+      raise ValidationError('device', 'DEVICE NOT EXIST')
