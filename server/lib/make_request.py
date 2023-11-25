@@ -30,18 +30,14 @@ def makeRequest(request, middleware, **args):
     )
 
     # Delete currentuser from session before sending the response to the client
-    http_response: HTTP_RESPONSE = middleware(http_request)
     if "__currentUser__" in request.session:
       current_user = request.session.pop("__currentUser__")
     else:
       current_user = None
 
-    # Get the response from the middleware
-    return HTTP_RESPONSE(
-      status_code = http_response.status_code,
-      headers     = None,
-      body        = http_response.body
-    )
+    # return the response from the middleware
+    return middleware(http_request)
+
 
   except Exception as e:
 
