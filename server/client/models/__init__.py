@@ -1,3 +1,3 @@
-from .RequestAgent import RequestAgent
-from .User         import User
-from .Agent        import Agent
+from .RequestAgent import RequestAgent as RequestAgentModel
+from .User         import User as UserModel
+from .Agent        import Agent as AgentModel
