@@ -5,7 +5,7 @@
 from rest_framework.response   import Response
 
 from lib.HTTP.response_samples import RESPONSE_SAMPLE
-from lib.HTTP.headers          import RequestHeaders
+from lib.HTTP.headers          import REQUEST_HEADERS
 from lib.token                 import Token
 
 from client.Repository         import User as UserRepository
@@ -19,7 +19,7 @@ def isAuthenticate(callback):
   def wrapper_function(request, *args, **kwargs):
     try:
 
-      headers    = RequestHeaders(request.headers)
+      headers    = REQUEST_HEADERS(request.headers)
       if headers.Authorization != None:
         payload = Token.getTokenPayload(headers.Authorization)
         if payload:
@@ -64,7 +64,7 @@ def isAuthenticate(callback):
 def AdminAuthenticate(callback):
   def wrapper_function(request, *args, **kwargs):
     try:
-      headers    = RequestHeaders(request.headers)
+      headers    = REQUEST_HEADERS(request.headers)
       if headers.Authorization != None:
         payload = Token.getTokenPayload(headers.Authorization)
         if payload:
