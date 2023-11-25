@@ -23,24 +23,7 @@ class LoginController:
       raise e
     
   @staticmethod
-  def generateToken(user: UserModel):
+  def generateToken(user: UserModel) -> bytes:
     payload = { 'email': user.email, 'id': user.id, 'username': user.user_name, 'role': user.role }
     return Token.createToken(payload)
   
-  @staticmethod
-  def login(user: UserModel | None) -> dict:
-    try:
-      if user is None:
-        raise ValidationError('user', 'Invalid user')
-
-      return {
-        'username': user.user_name,
-        'isAdmin' : user.role == "ADMIN",
-        'isAgent' : user.role == "AGENT",
-        'token'   : LoginController.generateToken(user)
-      }
-    except ValidationError as ve:
-      raise ve
-    except Exception as e:
-      print(f'LoginController.login {e}') 
-      raise
