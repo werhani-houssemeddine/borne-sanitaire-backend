@@ -1,6 +1,5 @@
 from lib.HTTP.http_request  import HTTP_REQUEST
 from lib.HTTP.http_response import HTTP_RESPONSE
-from lib.HTTP.http_response import HTTP_RESPONSE_BODY
 from lib.HTTP.headers       import RequestHeaders
 
 def makeRequest(request, middleware, **args):
@@ -31,7 +30,7 @@ def makeRequest(request, middleware, **args):
     )
 
     # Delete currentuser from session before sending the response to the client
-    http_response = middleware(http_request)
+    http_response: HTTP_RESPONSE = middleware(http_request)
     if "__currentUser__" in request.session:
       current_user = request.session.pop("__currentUser__")
     else:
@@ -39,24 +38,18 @@ def makeRequest(request, middleware, **args):
 
     # Get the response from the middleware
     return HTTP_RESPONSE(
-      status_code=http_response['status_code'],
-      headers    =None,
-      body       = HTTP_RESPONSE_BODY.build(http_response['body'])
+      status_code = http_response.status_code,
+      headers     = None,
+      body        = http_response.body
     )
 
   except Exception as e:
 
     # Return a generic error response
-    return HTTP_RESPONSE(
-      status_code = 500,
-      headers     = None,
-      body        = HTTP_RESPONSE_BODY.build({
-        "message": "Internal Server Error",
-        "error": True,
-        "state": "failure",
-        "data": {
-          'details': str(e)
-        }
-      })
-    )
+    return HTTP_RESPONSE().withBody(
+      message = "INTERNAL SERVER ERROR",
+      error   = True,
+      state   = "FAILURE"  
+    ).withStatus(500).withHeaders()
+    
   
