@@ -1,4 +1,4 @@
-from lib.errors import Validator
+from lib.errors import Validator, ValidationError
 from lib.HTTP   import HTTP_REQUEST
 from lib.bcrypt import Bcrypt
 
@@ -11,11 +11,14 @@ class LoginControllerValidator:
 
   @staticmethod
   def extractData(request: HTTP_REQUEST) -> tuple[str, str]:
-    email: str    = request.body.get('email').strip()
-    password: str = request.body.get('password').strip()
+    email: str    = request.body.get('email')
+    password: str = request.body.get('password')
 
-    Validator({ 'email': email }).check_not_null('email').check_email('email')
-    Validator({ 'password': password }).check_not_null('password').check_min_length('password', 10)
+    v = lambda field: \
+      lambda value: Validator({ field: value }).check_not_null(field).check_not_empty(field)
+
+    v('email')(email).check_email('email')
+    v('password')(password).check_min_length('password', 10)
 
     return email, password
     
@@ -25,6 +28,9 @@ class LoginControllerValidator:
         
       if user.email == self.email and self.__checkPassword(user.password):
         return UserModel
+      return None
+    
+    except ValidationError as e:
       return None
     
     except Exception as e:
