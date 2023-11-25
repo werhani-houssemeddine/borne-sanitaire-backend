@@ -36,6 +36,8 @@ def makeRequest(request, middleware, **args):
       current_user = None
 
     # return the response from the middleware
+    #! Here we should convert the returned middleware response 
+    #! to django http.response instead
     return middleware(http_request)
 
 
