@@ -31,39 +31,26 @@ class HTTP_RESPONSE_BODY:
     return response_body.__dict__
 
 class HTTP_HEADER_RESPONSE:
-  def __init__(self, contentType = "application/json", statusCode = 200)-> None:
+  def __init__(self, contentType = "application/json")-> None:
     self.contentType = contentType
-    self.statusCode  = statusCode
 
 
 # this class will be the response returned from makeRequest function
 class HTTP_RESPONSE:
-  def __init__(self, body=None, headers=None):
+  def __init__(self, body = None, headers = None, status_code = 200):
     self.body        = body if body is not None else HTTP_RESPONSE_BODY()
     self.headers     = headers if headers is not None else HTTP_HEADER_RESPONSE()
     self.status_code = 200
-
-
-  def build(self, response_data: dict) -> 'HTTP_RESPONSE':
-    body_response    = response_data.get('body', {})
-    headers_response = response_data.get('headers', {})
-
-    http_header_response =HTTP_HEADER_RESPONSE(
-      contentType = headers_response.get('contentType', "application/json"),
-      statusCode  = headers_response.get('statusCode', 200)
-    )
-
-    self.headers     = http_header_response.contentType
-    self.status_code = http_header_response.statusCode
-    self.body        = HTTP_RESPONSE_BODY.build(body_response)
-
-    return self
 
   def withBody(self, message = "", error = False, state = "success", data = {}):
     self.body = HTTP_RESPONSE_BODY(message, error, state, data)
     return self
 
-  def withHeaders(self, content_type = "application/json", status_code = 200):
-    self.headers = HTTP_HEADER_RESPONSE(content_type, status_code)
+  def withHeaders(self, content_type = "application/json"):
+    self.headers = HTTP_HEADER_RESPONSE(content_type)
+    return self
+  
+  def withStatus(self, status_code = 200):
+    self.status_code = status_code
     return self
   
