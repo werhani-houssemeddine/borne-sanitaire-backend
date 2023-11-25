@@ -3,9 +3,9 @@ from lib.Http.http_response import HTTP_RESPONSE
 from lib.Http.http_response import HTTP_RESPONSE_BODY
 from lib.Http.headers       import RequestHeaders
 
-# this function will be used to make requests and will return the responses
 def makeRequest(request, middleware, **args):
   try:
+    # Extract request information from the Django HTTP request
     ip_address = request.META.get('REMOTE_ADDR')
     headers    = RequestHeaders(request.headers)
     method     = request.method
@@ -15,8 +15,6 @@ def makeRequest(request, middleware, **args):
     path       = request.path
     url        = request.build_absolute_uri()
     session    = request.session 
-    
-        
 
     # Create a request to use send it instead of the origin request
     # send it with the middleware function (it's the api controller)
@@ -32,29 +30,33 @@ def makeRequest(request, middleware, **args):
       session    = session
     )
 
-    # Delete currentuser from session before sending the response 
-    # to the client
+    # Delete currentuser from session before sending the response to the client
     http_response = middleware(http_request)
-    if "__currentUser__" in request.session.keys():
-      del request.session["__currentUser__"]
+    if "__currentUser__" in request.session:
+      current_user = request.session.pop("__currentUser__")
+    else:
+      current_user = None
 
     # Get the response from the middleware
-    return(HTTP_RESPONSE(
-      status_code = http_response['status_code'],
-      headers     = None,
-      body        = HTTP_RESPONSE_BODY.build(http_response['body'])
-    ))
+    return HTTP_RESPONSE(
+      status_code=http_response['status_code'],
+      headers    =None,
+      body       = HTTP_RESPONSE_BODY.build(http_response['body'])
+    )
 
   except Exception as e:
+
+    # Return a generic error response
     return HTTP_RESPONSE(
       status_code = 500,
       headers     = None,
       body        = HTTP_RESPONSE_BODY.build({
-        "message" : "Internal Server Error",
-        "error"   : True,
-        "state"   : "failure",
-        "data"    : {
+        "message": "Internal Server Error",
+        "error": True,
+        "state": "failure",
+        "data": {
           'details': str(e)
         }
       })
     )
+  
