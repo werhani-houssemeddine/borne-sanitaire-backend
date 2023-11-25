@@ -8,7 +8,7 @@ def SignupMiddleware(request: HTTP_REQUEST):
   agent_id  = request.query.get('agent')
 
   if device_id == None and agent_id == None:
-    return RESPONSE_SAMPLE.notFound()
+    return RESPONSE_SAMPLE.NOT_FOUND()
 
   if device_id != None:
     return SignupAdminMiddleware(request)
