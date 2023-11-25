@@ -3,7 +3,7 @@ from lib.HTTP   import HTTP_REQUEST
 from lib.bcrypt import Bcrypt
 
 from client.models import UserModel
-from Repository    import UserRepository
+from client.Repository    import UserRepository
 
 class LoginControllerValidator:
   def __init__(self, request: HTTP_REQUEST) -> None:

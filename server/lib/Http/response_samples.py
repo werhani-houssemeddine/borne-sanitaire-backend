@@ -1,4 +1,4 @@
-from lib.HTTP import HTTP_RESPONSE
+from .http_response import HTTP_RESPONSE
 
 class RESPONSE_SAMPLE:
   @staticmethod

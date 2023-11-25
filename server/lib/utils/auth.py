@@ -8,7 +8,7 @@ from lib.HTTP.response_samples import RESPONSE_SAMPLE
 from lib.HTTP.headers          import REQUEST_HEADERS
 from lib.token                 import Token
 
-from client.Repository         import User as UserRepository
+from client.Repository         import UserRepository
 
 from client.utils import CurrentUser
 

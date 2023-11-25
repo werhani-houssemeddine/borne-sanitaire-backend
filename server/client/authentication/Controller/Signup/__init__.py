@@ -1,7 +1,7 @@
 from lib.bcrypt import Bcrypt
 
 from .business_rules import SingUp as SignUpValidate
-from client.Repository            import User
+from client.Repository            import UserRepository
 
 class SignUpController:
   @staticmethod
