@@ -24,7 +24,7 @@ class UserRepository:
     try:
       return UserModel.objects.get(email = email)
     except UserModel.DoesNotExist:
-      raise ValidationError('email', 'User with this email does not exist')
+      return None
     except Exception as e:
       print(f'class UserRepository.getUserByEmail error {e}')
       raise ValidationError('email', 'Error retrieving user')
