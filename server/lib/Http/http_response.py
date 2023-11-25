@@ -23,12 +23,9 @@ class HTTP_RESPONSE_BODY:
 
     return response
 
-  @staticmethod
-  def toJson(response_body):
-    if isinstance(response_body, HTTP_RESPONSE_BODY) == False:
-      raise ValueError('Only converting HTTP_RESPONSE_BODY instances')
-    
-    return response_body.__dict__
+
+  def toJson(self) -> dict:
+    return self.__dict__
 
 class HTTP_HEADER_RESPONSE:
   def __init__(self, contentType = "application/json")-> None:
