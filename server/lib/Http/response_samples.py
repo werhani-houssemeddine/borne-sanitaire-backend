@@ -19,7 +19,7 @@ class RESPONSE_SAMPLE:
     ).withHeaders(content_type = "application/json").withStatus(404)
 
   @staticmethod
-  def SERVER_error   () -> HTTP_RESPONSE:
+  def SERVER_ERROR() -> HTTP_RESPONSE:
     return HTTP_RESPONSE().withBody(
       message  = "INTERNAL SERVER error   ",
       state    = "failure",

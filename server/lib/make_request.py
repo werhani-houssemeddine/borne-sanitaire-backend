@@ -1,12 +1,10 @@
-from lib.HTTP.http_request  import HTTP_REQUEST
-from lib.HTTP.http_response import HTTP_RESPONSE
-from lib.HTTP.headers       import RequestHeaders
+from lib.HTTP  import HTTP_REQUEST, HTTP_RESPONSE, REQUEST_HEADERS, RESPONSE_SAMPLE
 
 def makeRequest(request, middleware, **args):
   try:
     # Extract request information from the Django HTTP request
     ip_address = request.META.get('REMOTE_ADDR')
-    headers    = RequestHeaders(request.headers)
+    headers    = REQUEST_HEADERS(request.headers)
     method     = request.method
     params     = args
     query      = request.GET.dict()
@@ -42,12 +40,7 @@ def makeRequest(request, middleware, **args):
 
 
   except Exception as e:
-
     # Return a generic error response
-    return HTTP_RESPONSE().withBody(
-      message = "INTERNAL SERVER ERROR",
-      error   = True,
-      state   = "FAILURE"  
-    ).withStatus(500).withHeaders()
+    return RESPONSE_SAMPLE.SERVER_ERROR()
     
   
