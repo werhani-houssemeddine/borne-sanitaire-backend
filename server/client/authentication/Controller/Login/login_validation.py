@@ -25,9 +25,12 @@ class LoginControllerValidator:
   def validateCredentials(self) -> UserModel | None:
     try:
       user = UserRepository.getUserByEmail(self.email)
-        
+      if user == None:
+        return None
+      
       if user.email == self.email and self.__checkPassword(user.password):
         return UserModel
+      
       return None
     
     except ValidationError as e:
