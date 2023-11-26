@@ -28,17 +28,19 @@ def checkDevice(request):
 @api_view(['DELETE'])
 @Authenticate
 @Authorized('ADMIN')
-def deleteRequestAgent(request):
-    pass
+def deleteRequestAgent(request, id):
+    print("HELLO DELETE")
+    return makeRequest(request = request, middleware = RequestAgentAdminMiddleware.deleteRequest, id = id)
 
 @api_view(['GET'])
 @Authenticate
 @Authorized('ADMIN')
-def getSingleRequestAgent(request):
-    pass
+def getSingleRequestAgent(request, id):
+    print("HELLO GET")
+    return makeRequest(request = request, middleware = RequestAgentAdminMiddleware.getOneRequest, id = id)
 
 @api_view(['GET'])
 @Authenticate
 @Authorized('ADMIN')
 def getAllRequestAgent(request):
-    pass
+    return makeRequest(request = request, middleware = RequestAgentAdminMiddleware.getAllRequest)
