@@ -1,36 +1,21 @@
 from rest_framework.decorators import api_view
-from rest_framework.response   import Response
 
-from client.agent.Middleware import Agent
+from client.agent.Middleware import AgentMiddleware, RequestAgentMiddleware
 from lib.make_request        import makeRequest
 
-@api_view(['POST'])
-def addAgent(request):
-  response = makeRequest(request = request, middleware = Agent.add)
-  return Response(status = response.status_code, data = response.body)
+@api_view(['GET'])
+def checkRequestAgent(request, id):
+  pass
+
+@api_view(['GET'])
+def rejectRequestAgent(request, id):
+  return makeRequest(request = request, middleware = RequestAgentMiddleware.rejectRequest, id = id)
 
 @api_view(['POST'])
-def editAgent(request):
-  response = makeRequest(request = request, middleware = Agent.edit)
-  return Response(status = response.status_code, data = response.body)
+def updateAgent(request):
+  return makeRequest(request = request, middleware = AgentMiddleware.updateCurrentAgent)
 
 
 @api_view(['GET'])
 def archieveAgent(request):
-  response = makeRequest(request = request, middleware = Agent.archieve)
-  return Response(status = response.status_code, data = response.body)
-
-@api_view(['GET'])
-def deleteAgent(request):
-  response = makeRequest(request = request, middleware = Agent.delete)
-  return Response(status = response.status_code, data = response.body)
-
-@api_view(['GET'])
-def checkRequestedAgent(request):
-  response = makeRequest(request = request, middleware = Agent.checkRequestAgent)
-  return Response(status = response.status_code, data = response.body)
-
-@api_view(['GET'])
-def rejectRequestAgent(request, id):
-  response = makeRequest(request = request, middleware = Agent.rejectRequest, id = id)
-  return Response(status = response.status_code, data = response.body)
+  return makeRequest(request = request, middleware = AgentMiddleware.suspendCurrentAgent)

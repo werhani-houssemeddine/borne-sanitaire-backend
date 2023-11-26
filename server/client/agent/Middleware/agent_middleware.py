@@ -6,6 +6,10 @@ class AgentMiddleware:
     pass
 
   @staticmethod
+  def updateCurrentAgent(request: HTTP_REQUEST) -> HTTP_RESPONSE:
+    pass
+
+  @staticmethod
   def updateCurrentAgentPassword(request: HTTP_REQUEST) -> HTTP_RESPONSE:
     pass
 

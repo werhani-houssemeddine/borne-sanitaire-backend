@@ -4,9 +4,8 @@
 
 from rest_framework.response   import Response
 
-from lib.HTTP.response_samples import RESPONSE_SAMPLE
-from lib.HTTP.headers          import REQUEST_HEADERS
-from lib.token                 import Token
+from lib.HTTP  import RESPONSE_SAMPLE, REQUEST_HEADERS, HTTP_RESPONSE
+from lib.token import Token
 
 from client.Repository         import UserRepository
 
@@ -55,8 +54,7 @@ def isAuthenticate(callback):
       raise Exception()  
     
     except Exception as e:
-      response = RESPONSE_SAMPLE.notAuthorised()
-      return Response(status = response['status_code'], data = response['body'])
+      return unauthorizedResponse()
 
   return wrapper_function
 
@@ -86,8 +84,7 @@ def AdminAuthenticate(callback):
     
     except Exception as e:
       print(e)
-      response = RESPONSE_SAMPLE.notAuthorised()
-      return Response(status = response['status_code'], data = response['body'])
+      return unauthorizedResponse()
 
   return wrapper_function
 
@@ -111,8 +108,15 @@ def isAuthorized(permission):
         raise Exception()  
 
       except Exception as e:
-        response = RESPONSE_SAMPLE.notAuthorised()
-        return Response(status = response['status_code'], data = response['body'])
+        return unauthorizedResponse()
 
     return wrapper_function
   return decorator_function
+
+
+def unauthorizedResponse() -> Response:
+  response: HTTP_RESPONSE = RESPONSE_SAMPLE.NOT_AUTHORIZED()
+  return Response(
+    status = response.status_code,
+    data   = response.body.toJson()
+  )
