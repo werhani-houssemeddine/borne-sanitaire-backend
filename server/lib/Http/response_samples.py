@@ -1,4 +1,4 @@
-from lib.HTTP import HTTP_RESPONSE
+from .http_response import HTTP_RESPONSE
 
 class RESPONSE_SAMPLE:
   @staticmethod
@@ -51,3 +51,21 @@ class RESPONSE_SAMPLE:
       error    = False,
       data     = data    
     ).withHeaders(content_type = "application/json").withStatus(200)
+
+  @staticmethod 
+  def faillureBuild(data = None, message = None, status_code = 400) -> HTTP_RESPONSE:
+    return HTTP_RESPONSE().withBody(
+      message  = message,
+      state    = "failure",
+      error    = True,
+      data     = data
+    ).withStatus(status_code).withHeaders()
+  
+  @staticmethod
+  def successBuild(data = None, status_code = 200) -> HTTP_RESPONSE:
+    return HTTP_RESPONSE().withBody(
+      message  = "OK",
+      state    = "success",
+      error    = False,
+      data     = data
+    ).withStatus(status_code).withHeaders()

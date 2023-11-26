@@ -8,10 +8,10 @@ class ValidationError(Exception):
     self.field   = field
 
 class Validator:
-  def __init__(self, data):
+  def __init__(self, data: dict) -> 'Validator':
     self.data = data
 
-  def check_not_null(self, field):
+  def check_not_null(self, field) -> 'Validator':
     if self.data.get(field) is None:
       raise ValidationError(
         field   = field, 
@@ -20,7 +20,18 @@ class Validator:
     
     return self
   
-  def check_email(self, field):
+  def check_not_empty(self, field) -> 'Validator':
+    value = self.data.get(field)
+    if isinstance(value, str):
+      if len(value.strip()) != 0:
+        return self
+      
+    raise ValidationError(
+      field   = field, 
+      message = "This property is required"
+    )
+  
+  def check_email(self, field) -> 'Validator':
     value = self.data.get(field)
     
     email_regex = re.compile(r'^\S+@\S+\.\S+$')
@@ -32,7 +43,7 @@ class Validator:
     
     return self
   
-  def check_min_length(self, field, min_length=None):
+  def check_min_length(self, field, min_length=None) -> 'Validator':
     value = self.data.get(field)
 
     if min_length is not None and len(value) < min_length:
@@ -43,7 +54,7 @@ class Validator:
     
     return self
 
-  def check_max_length(self, field, max_length=None):
+  def check_max_length(self, field, max_length=None) -> 'Validator':
     value = self.data.get(field)
 
     if max_length is not None and len(value) > max_length:
@@ -54,7 +65,7 @@ class Validator:
     
     return self
 
-  def check_custom_async(self, field, callback):
+  def check_custom_async(self, field, callback) -> 'Validator':
     value = self.data.get(field)
     callback(value)
     return self
