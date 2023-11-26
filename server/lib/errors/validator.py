@@ -7,6 +7,13 @@ class ValidationError(Exception):
     self.message = message
     self.field   = field
 
+class ServerError(Exception):
+  def __init__(self, field=None, message=None):
+    super().__init__(message)
+    
+    self.message = message
+    self.field   = field
+
 class Validator:
   def __init__(self, data: dict) -> 'Validator':
     self.data = data
