@@ -2,11 +2,11 @@ from rest_framework.response   import Response
 from rest_framework.decorators import api_view
 
 from lib.make_request import makeRequest
-from lib.utils        import Authenticate
+from lib.utils        import Authenticate, Authorized
 
 from client.agent.Middleware import Agent
 from client.admin.Middleware import DeviceMiddleware
-
+from client.admin.Middleware import RequestAgentAdminMiddleware
 
 @api_view(['PUT'])
 #@isAuthenticate
@@ -16,10 +16,9 @@ def edit(request):
 
 @api_view(['POST'])
 @Authenticate
-#@Authorized('ADMIN')
+@Authorized('ADMIN')
 def addAgent(request):
-    response = makeRequest(request = request, middleware = Agent.add)
-    return Response(status = response.status_code, data = response.body)
+    return makeRequest(request = request, middleware = RequestAgentAdminMiddleware.sendNewRequest)
 
 @api_view(['GET'])
 def checkDevice(request):
