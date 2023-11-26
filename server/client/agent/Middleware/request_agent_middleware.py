@@ -16,3 +16,13 @@ class RequestAgentMiddleware:
     except Exception as e:
       print(e)
       return RESPONSE_SAMPLE.BAD_REQUEST()
+    
+  @staticmethod
+  def checkRequestAgent(request: HTTP_REQUEST) -> HTTP_RESPONSE:
+    try:
+      RESPONSE_SAMPLE.OK({ 
+        'can_access': RequestAgentController.checkExistRequestAgent(request) 
+      })
+
+    except Exception:
+      return RESPONSE_SAMPLE.OK(data = { 'can_access': False })

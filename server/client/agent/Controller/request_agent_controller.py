@@ -24,3 +24,12 @@ class RequestAgentController:
       
     except ValidationError: raise
     except Exception: raise
+  
+  @staticmethod
+  def checkExistRequestAgent(request: HTTP_REQUEST) -> bool:
+    try:
+      request_id = validateUUID(request.params.get('id'))
+      request_agent = RequestAgentRepository.getPendingRequestAgentById(request_id)
+      return request_agent is not None
+    except Exception:
+      return False

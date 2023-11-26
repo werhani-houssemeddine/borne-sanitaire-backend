@@ -5,7 +5,8 @@ from lib.make_request        import makeRequest
 
 @api_view(['GET'])
 def checkRequestAgent(request, id):
-  pass
+  return makeRequest(request = request, middleware = RequestAgentMiddleware.checkRequestAgent, id = id)
+
 
 @api_view(['GET'])
 def rejectRequestAgent(request, id):
