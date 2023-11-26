@@ -1,7 +1,7 @@
 from lib.errors import ServerError, ValidationError
 from lib.HTTP   import HTTP_REQUEST, HTTP_RESPONSE, RESPONSE_SAMPLE
 
-from agent.Controller import RequestAgentController
+from client.agent.Controller import RequestAgentController
 
 class RequestAgentMiddleware:
   @staticmethod
