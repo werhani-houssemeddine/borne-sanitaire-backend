@@ -60,4 +60,23 @@ class RequestAgentRepository:
       raise 
     except Exception as e:
       raise
-    
+
+
+  @staticmethod
+  def getAllRequestAgent(user_id: int):
+    try:
+      return RequestAgentModel.objects.filter(user_id = user_id)
+    except RequestAgentModel.DoesNotExist:
+      return None
+    except Exception:
+      raise 
+
+  @staticmethod
+  def deleteRequestAgentById(user_id: int, request_id) -> True:
+    try:
+      RequestAgentModel.objects.get(user_id = user_id, request_id = request_id).delete()
+      return True
+    except RequestAgentModel.DoesNotExist:
+      raise ValidationError('REQUEST', 'REQUEST NO MORE VALID')
+    except Exception:
+      raise
