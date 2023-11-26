@@ -55,7 +55,7 @@ def isAuthenticate(callback):
       raise Exception()  
     
     except Exception as e:
-      response = RESPONSE_SAMPLE.notAuthorised()
+      response = RESPONSE_SAMPLE.NOT_AUTHORIZED()
       return Response(status = response['status_code'], data = response['body'])
 
   return wrapper_function
@@ -86,7 +86,7 @@ def AdminAuthenticate(callback):
     
     except Exception as e:
       print(e)
-      response = RESPONSE_SAMPLE.notAuthorised()
+      response = RESPONSE_SAMPLE.NOT_AUTHORIZED()
       return Response(status = response['status_code'], data = response['body'])
 
   return wrapper_function
@@ -111,7 +111,7 @@ def isAuthorized(permission):
         raise Exception()  
 
       except Exception as e:
-        response = RESPONSE_SAMPLE.notAuthorised()
+        response = RESPONSE_SAMPLE.NOT_AUTHORIZED()
         return Response(status = response['status_code'], data = response['body'])
 
     return wrapper_function
