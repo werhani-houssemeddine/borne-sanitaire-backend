@@ -24,3 +24,21 @@ def addAgent(request):
 def checkDevice(request):
     response = makeRequest(request = request, middleware = DeviceMiddleware.checkDeviceDisponibility)
     return Response(status = response.status_code, data = response.body)
+
+@api_view(['DELETE'])
+@Authenticate
+@Authorized('ADMIN')
+def deleteRequestAgent(request):
+    pass
+
+@api_view(['GET'])
+@Authenticate
+@Authorized('ADMIN')
+def getSingleRequestAgent(request):
+    pass
+
+@api_view(['GET'])
+@Authenticate
+@Authorized('ADMIN')
+def getAllRequestAgent(request):
+    pass
