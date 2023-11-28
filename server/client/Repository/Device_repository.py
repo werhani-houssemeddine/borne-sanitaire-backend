@@ -19,8 +19,11 @@ class DeviceRepository:
       raise
 
   @staticmethod
-  def getDeviceById(device_id):
+  def getNonSelledDevice(device_id):
     try:
       return DeviceTable.objects.get(device_id = device_id, is_saled = False)
+    
+    except DeviceTable.DoesNotExist as e:
+      raise ValidationError('device', 'DEVICE DOES NOT EXIST')
     except Exception as e:
-      raise ValidationError('device', 'DEVICE NOT EXIST')
+      raise 

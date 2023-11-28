@@ -54,7 +54,7 @@ class SignupControllerValidatorAdmin:
   @staticmethod
   def validateDeviceId(device_id) -> str:
     try:
-      DeviceRepository.getDeviceById(device_id)
+      DeviceRepository.getNonSelledDevice(device_id)
       return device_id
     
     except ValidationError as ve:
