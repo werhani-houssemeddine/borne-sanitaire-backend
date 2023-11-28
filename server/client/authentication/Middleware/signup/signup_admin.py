@@ -5,8 +5,10 @@ from client.authentication.Controller import SignupControllerAdmin
 
 def SignupAdminMiddleware(request: HTTP_REQUEST) -> HTTP_RESPONSE:
   try:    
-    if SignupControllerAdmin(request):
-      return RESPONSE_SAMPLE.OK()
+    user_signup = SignupControllerAdmin(request)
+    if user_signup:
+      token = SignupControllerAdmin.generateToken(user_signup.admin)
+      return RESPONSE_SAMPLE.OK(data = { 'token': token })
     
     else:
       return RESPONSE_SAMPLE.faillureBuild(

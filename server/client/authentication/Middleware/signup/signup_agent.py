@@ -4,9 +4,14 @@ from lib.errors   import ValidationError
 from client.authentication.Controller import SignupControllerAgent
 
 def SignupAgentMiddleware(request: HTTP_REQUEST) -> HTTP_RESPONSE:
-  try:    
-    if SignupControllerAgent(request):
-      return RESPONSE_SAMPLE.OK()
+  try:
+    #? In the agent case we can omit sending the token, the agent is requested
+    #? this endpoint from a web page and the app is delivred by a mobile app
+    
+    agent_signup = SignupControllerAgent(request)
+    if agent_signup:
+      token = SignupControllerAgent.generateToken(agent_signup.agent)
+      return RESPONSE_SAMPLE.OK(data = { 'token': token })
     
     else:
       return RESPONSE_SAMPLE.faillureBuild(

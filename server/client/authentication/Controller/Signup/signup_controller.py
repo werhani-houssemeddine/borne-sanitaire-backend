@@ -1,5 +1,6 @@
 from lib.HTTP   import HTTP_REQUEST
 from lib.bcrypt import Bcrypt
+from lib.token  import Token
 
 from .signup_validate import SignupControllerValidatorAdmin
 from .signup_validate import SignupControllerValidatorAgent
@@ -26,13 +27,18 @@ class SignupController:
   def hash_password(self, password: str) -> str:
     hashed_password = Bcrypt.hash(password)
     return hashed_password.decode('utf-8')
+  
+  @staticmethod
+  def generateToken(user: UserModel) -> bytes:
+    payload = { 'email': user.email, 'id': user.id, 'username': user.user_name, 'role': user.role }
+    return Token.createToken(payload)
 
 
 class SignupControllerAgent(SignupController):
   def __init__(self, request: HTTP_REQUEST) -> None:
     super().__init__(request)
     agent = SignupControllerValidatorAgent(request)
-    self.createNewAgent(agent)
+    self.agent = self.createNewAgent(agent)
     
   def createNewAgent(self, agent: SignupControllerValidatorAgent) -> UserModel:
     self.updateAgentRequestState(agent.request_agent_id)
@@ -48,6 +54,7 @@ class SignupControllerAdmin(SignupController):
       admin      = SignupControllerValidatorAdmin(request)
       admin_data = self.createNewAdmin(admin)
       self.initializeDeviceToAdmin(admin_data, admin)
+      self.admin = admin_data
     except Exception as e:
       raise
     
