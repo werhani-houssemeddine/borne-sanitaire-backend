@@ -4,7 +4,6 @@ from rest_framework.decorators import api_view
 from lib.make_request import makeRequest
 from lib.utils        import Authenticate, Authorized
 
-from client.admin.Middleware import DeviceMiddleware
 from client.admin.Middleware import RequestAgentAdminMiddleware
 
 @api_view(['PUT'])

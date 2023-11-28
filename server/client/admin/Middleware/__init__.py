@@ -1,2 +1,1 @@
-from .device import DeviceMiddleware
 from .request_agent_middleware import RequestAgentAdminMiddleware

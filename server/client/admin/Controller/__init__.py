@@ -1,2 +1,1 @@
-from .device import DeviceController
 from .request_agent_controller import AddNewRequestAgentController, RequestAgentController
