@@ -19,11 +19,6 @@ def edit(request):
 def addAgent(request):
     return makeRequest(request = request, middleware = RequestAgentAdminMiddleware.sendNewRequest)
 
-@api_view(['GET'])
-def checkDevice(request):
-    response = makeRequest(request = request, middleware = DeviceMiddleware.checkDeviceDisponibility)
-    return Response(status = response.status_code, data = response.body)
-
 @api_view(['DELETE'])
 @Authenticate
 @Authorized('ADMIN')
