@@ -20,3 +20,23 @@ def updateAgent(request):
 @api_view(['GET'])
 def archieveAgent(request):
   return makeRequest(request = request, middleware = AgentMiddleware.suspendCurrentAgent)
+
+@api_view(['GET'])
+def getAllAgents(request):
+  pass
+
+@api_view(['GET'])
+def getActiveAgents(request):
+  pass
+
+@api_view(['GET'])
+def getArcheivedAgents(request):
+  pass
+
+@api_view(['GET'])
+def gentPendingAgents(request):
+  pass
+
+@api_view
+def getOneAgentData(request, id):
+  pass
