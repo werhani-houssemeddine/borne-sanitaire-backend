@@ -10,7 +10,7 @@ def SignupAgentMiddleware(request: HTTP_REQUEST) -> HTTP_RESPONSE:
     
     agent_signup = SignupControllerAgent(request)
     if agent_signup:
-      token = SignupControllerAgent.generateToken(agent_signup.agent)
+      token = SignupControllerAgent.generateToken(agent_signup.agent.agent_id)
       return RESPONSE_SAMPLE.OK(data = { 'token': token })
     
     else:
@@ -24,6 +24,6 @@ def SignupAgentMiddleware(request: HTTP_REQUEST) -> HTTP_RESPONSE:
     print(f"AN ERROR OCCURED {ve}")
     return RESPONSE_SAMPLE.BAD_REQUEST({ str(ve.field): str(ve.message) })
   except Exception as e:
-    print(f'LoginMiddleware {e}')
+    print(f'SignupAgentMiddleware {e}')
     return RESPONSE_SAMPLE.BAD_REQUEST()
   
