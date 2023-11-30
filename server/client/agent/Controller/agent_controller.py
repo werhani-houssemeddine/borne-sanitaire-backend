@@ -65,10 +65,11 @@ class AgentController:
 
   @staticmethod
   def formatAgentResponse(agent: AgentModel) -> dict:
+    
     return {
-      'agent_id'   : agent.agent_id, 
-      'id'         : agent.id,
+      'admin_id'   : agent.user_id.id,
+      'agent_id'   : agent.agent_id.id,
       'agent_email': agent.agent_id.email,
-      'created_at' : agent.created_at,
+      'user_name'  : agent.agent_id.user_name,
       'active'     : agent.suspend == False 
     }
