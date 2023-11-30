@@ -28,11 +28,12 @@ class AgentController:
 
   def getSingleAgent(self):
     try:
-      agent_id = self.request.params.get('agent_id')
-      if agent_id is None: raise ValidationError('ID', 'INVALID AGENT ID')
+      id = self.request.params.get('id')
+      if id is None: raise ValidationError('ID', 'INVALID AGENT ID')
       
-      agent = AgentRepository.getAgentByAgentId(agent_id)
-      if agent.user_id != self.user_id:
+      agent = AgentRepository.getAgentById(id)
+      
+      if agent.user_id.id != self.user_id:
         raise ValidationError('UNATHORIZED', 'AGENT ID')
       
       return AgentController.formatAgentResponse(agent)
@@ -68,7 +69,7 @@ class AgentController:
     
     return {
       'admin_id'   : agent.user_id.id,
-      'agent_id'   : agent.agent_id.id,
+      'agent_id'   : agent.id,
       'agent_email': agent.agent_id.email,
       'user_name'  : agent.agent_id.user_name,
       'active'     : agent.suspend == False 
