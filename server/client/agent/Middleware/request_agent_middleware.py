@@ -20,7 +20,7 @@ class RequestAgentMiddleware:
   @staticmethod
   def checkRequestAgent(request: HTTP_REQUEST) -> HTTP_RESPONSE:
     try:
-      RESPONSE_SAMPLE.OK({ 
+      return RESPONSE_SAMPLE.OK({ 
         'can_access': RequestAgentController.checkExistRequestAgent(request) 
       })
 
