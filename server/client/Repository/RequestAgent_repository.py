@@ -47,7 +47,7 @@ class RequestAgentRepository:
   @staticmethod
   def updateRequestAgentState(id, new_state) -> bool:
     try:
-      if new_state != "PENDING" or new_state != "ACCEPT" or new_state != "REJECT":
+      if new_state != "PENDING" and new_state != "ACCEPT" and new_state != "REJECT":
         raise ValidationError("STATE", "INVALID STATE PROPERTY")
 
       request_agent = RequestAgentRepository.getRequestAgentById(id)
