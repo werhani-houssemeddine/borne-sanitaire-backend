@@ -69,9 +69,14 @@ class SignupControllerValidatorAgent:
       self.request_agent_id = self.getRequestAgentId(request)
       self.role             = "AGENT"
       self.email            = self.getEmail()
+      self.request_agent    = self.getRequestAgent()
+    
+    except ValidationError as ve: raise
     except Exception as e:
-      print("HAHAHHAHA EXCEPTION ")
+      print(f"An error occured occured when instance SignupControllerValidatorAgent {e}")
+      raise
 
+  @staticmethod
   def extractData(request: HTTP_REQUEST) -> tuple[str, str]:
     password: str = request.body.get('password')
     username: str = request.body.get('user_name')
@@ -80,8 +85,7 @@ class SignupControllerValidatorAgent:
         .check_not_null(field).check_not_empty(field)
       
     v('password').check_min_length('password', 10)
-    v('usermane').check_min_length('username', 4).check_max_length('username', 20)
-
+    v('username').check_min_length('username', 4).check_max_length('username', 20)
     return (password, username)
   
   @staticmethod
@@ -94,11 +98,17 @@ class SignupControllerValidatorAgent:
       return request_agent_id
   
   def getEmail(self) -> str:
+    try:
+      requestAgent = self.getRequestAgent()
+      return requestAgent.email
+    
+    except Exception: raise
+  
+  def getRequestAgent(self) -> RequestAgentModel:
     getPendingRequestAgentById = RequestAgentRepository.getPendingRequestAgentById
     agentRequest: RequestAgentModel | None = getPendingRequestAgentById(self.request_agent_id)
 
     if agentRequest == None:
       raise ValidationError('agent_id', 'EXPIRED REQUEST')
     else:
-      return agentRequest.email
-   
+      return agentRequest

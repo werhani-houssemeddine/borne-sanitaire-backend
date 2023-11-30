@@ -21,6 +21,6 @@ def SignupAdminMiddleware(request: HTTP_REQUEST) -> HTTP_RESPONSE:
     print(f"AN ERROR OCCURED {ve}")
     return RESPONSE_SAMPLE.BAD_REQUEST({ str(ve.field): str(ve.message) })
   except Exception as e:
-    print(f'LoginMiddleware {e}')
+    print(f'SignupAdminMiddleware {e}')
     return RESPONSE_SAMPLE.BAD_REQUEST()
   

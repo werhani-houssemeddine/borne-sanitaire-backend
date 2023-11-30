@@ -1,5 +1,7 @@
 from lib.errors    import ValidationError
-from client.models import UserModel
+from client.models import UserModel, AgentModel
+
+from .Agent_repository import AgentRepository
 
 
 #! This repository need some try/catch blocks
@@ -31,7 +33,7 @@ class UserRepository:
   
 
   @staticmethod
-  def createNewUser(email: str, password: str, user_name: str, role: str):
+  def createNewUser(email: str, password: str, user_name: str, role: str) -> UserModel:
     return UserModel.objects.create(
       user_name = user_name,
       email     = email,
@@ -39,9 +41,12 @@ class UserRepository:
       role      = role
     )
 
+  #? user is the admin
   @staticmethod
-  def createNewAgent(email: str, password: str, user_name: str):
-    return UserRepository.createNewUser(email, password, user_name, "AGENT")
+  def createNewAgent(email: str, password: str, user_name: str, user: UserModel) -> AgentModel:
+    agent: UserModel = UserRepository.createNewUser(email, password, user_name, "AGENT")
+    return AgentRepository.addNewAgent(user_id = user, agent_id = agent)
+
   
   @staticmethod
   def createNewAdmin(email: str, password: str, user_name: str):
