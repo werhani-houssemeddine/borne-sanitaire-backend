@@ -3,9 +3,11 @@ from rest_framework.decorators import api_view
 from client.agent.Middleware import AgentMiddleware, RequestAgentMiddleware
 from lib.make_request        import makeRequest
 
+from lib.utils import Authenticate, Authorized
+
 @api_view(['GET'])
-def checkRequestAgent(request, id):
-  return makeRequest(request = request, middleware = RequestAgentMiddleware.checkRequestAgent, id = id)
+def checkRequestAgent(request):
+  return makeRequest(request = request, middleware = RequestAgentMiddleware.checkRequestAgent)
 
 
 @api_view(['GET'])
@@ -22,21 +24,35 @@ def archieveAgent(request):
   return makeRequest(request = request, middleware = AgentMiddleware.suspendCurrentAgent)
 
 @api_view(['GET'])
+@Authenticate
+@Authorized(['ADMIN'])
 def getAllAgents(request):
-  pass
+  return makeRequest(request = request, middleware = AgentMiddleware.getAllAgents)
 
 @api_view(['GET'])
+@Authenticate
+@Authorized(['ADMIN'])
 def getActiveAgents(request):
-  pass
+  return makeRequest(request = request, middleware = AgentMiddleware.getActiveAgents)
 
 @api_view(['GET'])
+@Authenticate
+@Authorized(['ADMIN'])
 def getArcheivedAgents(request):
-  pass
+  return makeRequest(request = request, middleware = AgentMiddleware.getArchivedAgents)
 
 @api_view(['GET'])
+@Authenticate
+@Authorized(['ADMIN'])
 def gentPendingAgents(request):
   pass
 
-@api_view
+@api_view(['GET'])
+@Authenticate
+@Authorized(['ADMIN'])
 def getOneAgentData(request, id):
-  pass
+  return makeRequest( 
+    middleware = AgentMiddleware.getOneAgent,
+    request = request, 
+    id = id
+  )
