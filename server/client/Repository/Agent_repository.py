@@ -52,7 +52,7 @@ class SelectAgent:
     try:
       return AgentModel.objects.filter(
         user_id = user_id,
-        suspend = True
+        suspend = False
       )
     
     except AgentModel.DoesNotExist: return None
