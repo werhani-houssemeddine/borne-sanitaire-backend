@@ -1,4 +1,5 @@
 from .request_agent_controller import RequestAgentController
+from .agent_controller         import AgentController 
 
 # from lib.HTTP.http_request     import HTTP_REQUEST
 # from .bussinessLayer           import validateAgentData
