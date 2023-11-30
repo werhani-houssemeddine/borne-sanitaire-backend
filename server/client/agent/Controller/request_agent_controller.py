@@ -28,7 +28,7 @@ class RequestAgentController:
   @staticmethod
   def checkExistRequestAgent(request: HTTP_REQUEST) -> bool:
     try:
-      request_id = validateUUID(request.params.get('id'))
+      request_id = validateUUID(request.query.get('agent'))
       request_agent = RequestAgentRepository.getPendingRequestAgentById(request_id)
       return request_agent is not None
     except Exception:
