@@ -5,7 +5,7 @@ from lib.token  import Token
 from .signup_validate import SignupControllerValidatorAdmin
 from .signup_validate import SignupControllerValidatorAgent
 
-from client.Repository import UserRepository, Device_repository
+from client.Repository import UserRepository, DeviceRepository
 from client.Repository import RequestAgentRepository, AgentRepository
 
 from client.models     import UserModel, AgentModel
@@ -80,7 +80,7 @@ class SignupControllerAdmin(SignupController):
       raise
     
   def createNewAdmin(self, admin: SignupControllerValidatorAdmin) -> UserModel:
-    return self._createNewAdmin(admin, role = admin.role)
+    return self._createNewAdmin(admin)
   
   @staticmethod
   def initializeDeviceToAdmin(user: UserModel, admin: SignupControllerValidatorAdmin):
