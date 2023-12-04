@@ -51,3 +51,24 @@ class UserRepository:
   @staticmethod
   def createNewAdmin(email: str, password: str, user_name: str):
     return UserRepository.createNewUser(email, password, user_name, "ADMIN")
+  
+  @staticmethod
+  def updateUser(id, field: str, value) -> True:
+    try:
+      user = UserRepository.getUserById(id)
+      if field == 'password':
+        user.password = value
+      elif field == 'user_name':
+        user.user_name = value
+      elif field == 'phone_number':
+        user.phone_number = value
+
+      else:
+        raise ValidationError(field, 'INVALID PROPERTY TO UPDATE')
+      
+      if user.save() == None:
+        print(f'Updated {field} ok')
+        return True
+    
+    except ValidationError: raise
+    except Exception: raise
