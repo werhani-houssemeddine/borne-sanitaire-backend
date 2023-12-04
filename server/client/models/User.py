@@ -25,6 +25,12 @@ class User(models.Model):
     null       = False
   )
 
+  phone_number = models.PositiveIntegerField(
+    max_length = 8,
+    unique     = True,
+    null       = True,
+  )
+
   role = models.CharField(
     max_length = 10,
     choices    = ROLE_CHOICES,
