@@ -28,7 +28,7 @@ class UserController:
     except Exception as e:
       raise
     
-  def getCurrentUser(self):
+  def getCurrentUser(self) -> User:
     try:
       token = self.request.headers.Authorization
       payload_token = Token.getTokenPayload(token)
