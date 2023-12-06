@@ -16,3 +16,20 @@ class DeviceMiddleware:
     except Exception as e:
       print(e)
       return RESPONSE_SAMPLE.BAD_REQUEST()
+    
+  @staticmethod
+  def getDeviceVisitorsNumber(request):
+    return RESPONSE_SAMPLE.OK(DeviceController.getVistorNumber(request))
+
+  @staticmethod
+  def setDeviceVisitorsNumber(request):
+    return RESPONSE_SAMPLE.OK(DeviceController.setVistorNumber(request))
+
+  @staticmethod
+  def getSingleDevice(request):
+    return RESPONSE_SAMPLE.OK(DeviceController.getOneDevice(request))
+  
+  @staticmethod
+  def getAllDevices(request):
+    return RESPONSE_SAMPLE.OK({'data': 'This endpoint will be available soon 🥰'})
+
