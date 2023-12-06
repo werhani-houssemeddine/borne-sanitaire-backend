@@ -5,3 +5,4 @@ management/*.json
 
 # VS CODE Settings
 .vscode
+server/media/*
