@@ -30,6 +30,16 @@ class UserRepository:
     except Exception as e:
       print(f'class UserRepository.getUserByEmail error {e}')
       raise ValidationError('email', 'Error retrieving user')
+    
+  @staticmethod
+  def getUserByPhoneNumber(phone: int):
+    try:
+      return UserModel.objects.get(phone_number = phone)
+    except UserModel.DoesNotExist:
+      return None
+    except Exception as e:
+      print(f'class UserRepository.getUserByPhoneNumber error {e}')
+      raise ValidationError('phone number', 'Error retrieving user')
   
 
   @staticmethod

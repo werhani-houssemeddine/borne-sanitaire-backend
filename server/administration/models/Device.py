@@ -10,3 +10,5 @@ class Device(models.Model):
   is_saled = models.BooleanField(default=False)
   created_at = models.DateTimeField(auto_now_add=True)
   purchase_date = models.DateTimeField(null=True)
+  max_visitors = models.PositiveIntegerField(null=True, default = 0)
+  title = models.CharField(max_length = 32, null=True)

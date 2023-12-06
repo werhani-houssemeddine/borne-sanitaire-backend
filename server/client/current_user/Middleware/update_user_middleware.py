@@ -60,10 +60,19 @@ class UpdateUserMiddleware:
 
       picture.name = str(current_timestamp) + '_' + str(user_id) + picture_extension
 
-      pictureModel.user_id = UserRepository.getUserById(user_id)
-      pictureModel.avatar  = request.body.get('picture')
+      try:
+        
+        doesPictureExist = UserPictureModel.objects.get(user_id = user_id)
+        
+        if doesPictureExist:
+          doesPictureExist.avatar = request.body.get('picture')
+          doesPictureExist.save()
+      
+      except UserPictureModel.DoesNotExist:
+        pictureModel.user_id = UserRepository.getUserById(user_id)
+        pictureModel.avatar  = request.body.get('picture')
 
-      pictureModel.save()
+        pictureModel.save()
 
       return RESPONSE_SAMPLE.CREATED({'profile photo': 'updated_successfully'})
 

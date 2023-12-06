@@ -44,8 +44,12 @@ class UpdateUserController(UserController):
   def updatePhoneNumber(self):
     try:
       phone_number = self.extractData('phone_number')
+
       if not ValidateUserData.validatePhoneNumber(phone_number):
         raise ValidationError('phone_number', 'Invalid format')
+      
+      if UserRepository.getUserByPhoneNumber(phone_number) != None:
+        raise ValidationError('phone_number', 'Already used')
     
       return UserRepository.updateUser(self.user_id, 'phone_number', phone_number)
 
