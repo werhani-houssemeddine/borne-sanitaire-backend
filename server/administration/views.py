@@ -1,6 +1,9 @@
 from rest_framework.decorators import api_view
 from rest_framework.response   import Response
 
+import qrcode
+from io import BytesIO
+from django.http import HttpResponse
 
 from administration.authentication.Middleware import LoginMiddleware
 from administration.authentication.Middleware import VerificationCodeMiddleware
@@ -34,7 +37,25 @@ def check_verify_code(request):
 def addDevice(request):
   d = Device(version = "1.0.0")
   d.save()
-  return Response(status = 201, data = str(d.device_id))
+
+  qr = qrcode.QRCode(
+      version=1,
+      error_correction=qrcode.constants.ERROR_CORRECT_L,
+      box_size=10,
+      border=4,
+  )
+
+  qr.add_data(str(d.device_id))
+  qr.make(fit=True)
+
+  img = qr.make_image(fill_color="black", back_color="white")
+  buffer = BytesIO()
+  img.save(buffer)
+  buffer.seek(0)
+
+  # Return the image as a Django HttpResponse
+  return HttpResponse(buffer.read(), content_type="image/png")
+  # return Response(status = 201, data = str(d.device_id))
 
 @api_view(['PUT'])
 @Authenticate
