@@ -17,16 +17,24 @@ class Bcrypt:
 
   @staticmethod
   def compare(instance1: str, instance2: str) -> bool:
-    if isinstance(instance1, str):
-      instance1 = instance1.encode('utf-8')
+    try:
+      if isinstance(instance1, str):
+        instance1 = instance1.encode('utf-8')
 
-    if isinstance(instance2, str):
-      instance2 = instance2.encode('utf-8')
+      if isinstance(instance2, str):
+        instance2 = instance2.encode('utf-8')
 
-    return bcrypt.checkpw(
-      hashed_password = instance2,
-      password        = instance1
-    )
+      return bcrypt.checkpw(
+        hashed_password = instance2,
+        password        = instance1
+      )
+    
+    except Exception as e:
+      if e == "Invalid salt":
+        return bcrypt.checkpw(
+          hashed_password = instance1,
+          password        = instance2
+        )
   
 
   @staticmethod

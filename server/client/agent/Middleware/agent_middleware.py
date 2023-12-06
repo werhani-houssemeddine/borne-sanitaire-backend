@@ -1,6 +1,8 @@
 from lib.HTTP import HTTP_REQUEST, HTTP_RESPONSE
 
-class AgentMiddleware:
+from .get_agent_middleware import GetAgentMiddleware
+
+class AgentMiddleware(GetAgentMiddleware):
   @staticmethod
   def getCurrentAgent(request: HTTP_REQUEST) -> HTTP_RESPONSE:
     pass

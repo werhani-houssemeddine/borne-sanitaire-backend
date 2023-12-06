@@ -41,6 +41,6 @@ class LoginControllerValidator:
       raise
   
   def __checkPassword(self, user_password) -> bool:
-    Bcrypt.rounds = 10
+    
     return Bcrypt.compare(self.password, user_password)
         

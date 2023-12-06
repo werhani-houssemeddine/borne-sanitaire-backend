@@ -1,25 +1,63 @@
-from client.models import Agent as AgentTable
-from client.models import User  as UserTable
+from lib.errors import ValidationError
+
+from client.models import AgentModel, UserModel
 
 class SelectAgent:
   @staticmethod
   def _get_agent_by_attribute(attribute, value):
     try:
-      return AgentTable.objects.get(**{attribute: value})
-    except AgentTable.DoesNotExist:
-      return None
+      return AgentModel.objects.get(**{attribute: value})
+    except AgentModel.DoesNotExist:
+      raise ValidationError(field = attribute, message = f"{attribute} DOES NOT EXIST")
+    except Exception:
+      raise
 
-  staticmethod
-  def getAgentById(id):
-    return SelectAgent._get_agent_by_attribute('id', id)
-  
   @staticmethod
-  def getAgentByAgentId(agent_id):
-    return SelectAgent._get_agent_by_attribute('agent_id', agent_id)
+  def getAgentById(id) -> AgentModel:
+    try:
+      return SelectAgent._get_agent_by_attribute('id', id)
     
+    except ValidationError: raise
+    except Exception: raise
+
   @staticmethod
-  def getAgentByUserId(user_id):
-    return SelectAgent._get_agent_by_attribute('user_id', user_id)
+  def getAgentByAgentId(agent_id) -> AgentModel:
+    try:
+      return SelectAgent._get_agent_by_attribute('agent_id', agent_id)
+    
+    except AgentModel.DoesNotExist: raise ValidationError('AGENT', 'AGENT DOES NOT EXIST')
+    except ValidationError: raise
+    except Exception: raise
+
+  @staticmethod
+  def getAllAgents(user_id) -> list[AgentModel] | None:
+    try:
+      return AgentModel.objects.filter(user_id=user_id)
+      
+    except AgentModel.DoesNotExist: return None
+    except Exception: raise
+
+  @staticmethod
+  def getSuspendAgents(user_id) -> list[AgentModel] | None:
+    try:
+      return AgentModel.objects.filter(
+        user_id = user_id,
+        suspend = True
+      )
+    except AgentModel.DoesNotExist: return None
+    except Exception: raise
+
+  @staticmethod
+  def getAcitiveAgents(user_id) -> list[AgentModel] | None:
+    try:
+      return AgentModel.objects.filter(
+        user_id = user_id,
+        suspend = False
+      )
+    
+    except AgentModel.DoesNotExist: return None
+    except Exception: raise 
+
 
 
 class UpdateAgent:
@@ -34,37 +72,28 @@ class UpdateAgent:
 
   @staticmethod
   def updateUserPassword(id, new_password):
-      UpdateAgent._update_user_attribute(id, 'password', new_password, UserTable)
+    UpdateAgent._update_user_attribute(id, 'password', new_password, UserModel)
 
   @staticmethod
   def updateUserUsername(id, new_username):
-      UpdateAgent._update_user_attribute(id, 'user_name', new_username, UserTable)
+    UpdateAgent._update_user_attribute(id, 'user_name', new_username, UserModel)
 
   @staticmethod
   def suspendAgent(agent_id):
-      UpdateAgent._update_user_attribute(agent_id, 'suspend', True, AgentTable)
+    UpdateAgent._update_user_attribute(agent_id, 'suspend', True, AgentModel)
 
   @staticmethod
   def unsuspendAgent(agent_id):
-      UpdateAgent._update_user_attribute(agent_id, 'suspend', False, AgentTable)
+    UpdateAgent._update_user_attribute(agent_id, 'suspend', False, AgentModel)
 
 class AddNew:
   @staticmethod
-  def makeNewUser(user_id, user_name, email, password, role):
+  def makeNewAgent(user_id: UserModel, agent_id: UserModel) -> AgentModel:
     try:
-      new_user = UserTable.objects.create(
-        user_name = user_name,
-        password  = password,
-        email     = email,
-        role      = role
-      )
-
-      if role == "ADMIN":
-        return new_user
-      
-      return AgentTable.objects.create(user_id  = user_id, agent_id = new_user.id)
+      return AgentModel.objects.create(user_id  = user_id, agent_id = agent_id)
       
     except Exception as e:
+      print(e)
       return None
 
 
@@ -72,11 +101,13 @@ class AddNew:
 class AgentRepository:
   getAgentById      = SelectAgent.getAgentById
   getAgentByAgentId = SelectAgent.getAgentByAgentId
-  getAgentByUserId  = SelectAgent.getAgentByUserId
+  getAllAgents      = SelectAgent.getAllAgents
+  getActiveAgents   = SelectAgent.getAcitiveAgents
+  getSuspendAgents  = SelectAgent.getSuspendAgents
 
   updateUserPassword = UpdateAgent.updateUserPassword
   updateUserUsername = UpdateAgent.updateUserUsername
   unsuspendAgent     = UpdateAgent.unsuspendAgent
   suspendAgent       = UpdateAgent.suspendAgent
 
-  addNewUser = AddNew.makeNewUser
+  addNewAgent        = AddNew.makeNewAgent
