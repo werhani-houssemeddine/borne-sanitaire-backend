@@ -20,7 +20,7 @@ def updatePhoneNumber(request):
 def updateUsername(request):
   return makeRequest(request = request, middleware = UserMiddleware.updateUsername)
 
-@api_view(['PUT'])
+@api_view(['POST'])
 @Authenticate
 def updateProfilePhoto(request):
-  pass
+  return makeRequest(request = request, middleware = UserMiddleware.updateProfilePhoto)
