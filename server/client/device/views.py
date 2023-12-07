@@ -33,3 +33,8 @@ def getOneDevice(request, device):
     middleware = DeviceMiddleware.getSingleDevice, 
     device = device
   )
+
+@api_view(['GET'])
+@Authenticate
+def getAllDevices(request):
+  return makeRequest(request = request, middleware = DeviceMiddleware.getAllDevices)

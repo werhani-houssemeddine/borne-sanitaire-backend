@@ -3,7 +3,7 @@ from lib.HTTP   import HTTP_REQUEST
 from lib.utils  import UUID
 
 from administration.models import Device as DeviceModel
-from client.Repository     import DeviceRepository
+from client.Repository     import DeviceRepository, UserRepository
 
 from client.utils import getUserId
 
@@ -48,15 +48,6 @@ class DeviceController:
 
   
   @staticmethod
-  def getAllClientDevice(request: HTTP_REQUEST):
-    try:
-      pass
-
-    except ValidationError as e: raise
-    except Exception as e: raise 
-
-  
-  @staticmethod
   def getVistorNumber(request: HTTP_REQUEST) -> int | None:
     try:
       device  = DeviceController.getDeviceInstance(request)
@@ -73,7 +64,6 @@ class DeviceController:
   def setVistorNumber(request: HTTP_REQUEST):
     try:
       max_visitors = request.body.get('max_visitors')
-
       if max_visitors != None:
         device = DeviceController.getDeviceInstance(request)
         
@@ -88,6 +78,23 @@ class DeviceController:
     except ValidationError as e: raise
     except Exception as e: raise
 
+
+  @staticmethod
+  def getAllDevice(request: HTTP_REQUEST):
+    try:
+      user_id = getUserId(request)
+      user    = UserRepository.getUserById(user_id)
+      
+      if user.role == "AGENT": raise ValidationError("UNAUTHORIZED", "CANNOT ACCESS THIS ENDPOINT")
+
+      listOfDevices = DeviceRepository.getAllDevices(user_id)
+
+      return list(
+        map(DeviceController.formatDeviceResponse, listOfDevices)
+      )
+    
+    except ValidationError: raise 
+    except Exception: raise
 
   @staticmethod
   def formatDeviceResponse(device: DeviceModel) -> dict:
