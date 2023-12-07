@@ -18,18 +18,30 @@ class DeviceMiddleware:
       return RESPONSE_SAMPLE.BAD_REQUEST()
     
   @staticmethod
-  def getDeviceVisitorsNumber(request):
-    return RESPONSE_SAMPLE.OK(DeviceController.getVistorNumber(request))
+  def getDeviceVisitorsNumber(request: HTTP_REQUEST) -> HTTP_RESPONSE:
+    max_visitors = DeviceController.getVistorNumber(request)
+    return RESPONSE_SAMPLE.OK({ "max_visitors":  max_visitors})
 
   @staticmethod
-  def setDeviceVisitorsNumber(request):
-    return RESPONSE_SAMPLE.OK(DeviceController.setVistorNumber(request))
+  def setDeviceVisitorsNumber(request: HTTP_REQUEST) -> HTTP_RESPONSE:
+    try:
+      return RESPONSE_SAMPLE.OK(DeviceController.setVistorNumber(request))
+    except Exception as e:
+      print(e)
+      return RESPONSE_SAMPLE.BAD_REQUEST()
+
 
   @staticmethod
-  def getSingleDevice(request):
+  def getSingleDevice(request: HTTP_REQUEST) -> HTTP_RESPONSE:
     return RESPONSE_SAMPLE.OK(DeviceController.getOneDevice(request))
   
   @staticmethod
-  def getAllDevices(request):
-    return RESPONSE_SAMPLE.OK({'data': 'This endpoint will be available soon 🥰'})
-
+  def getAllDevices(request: HTTP_REQUEST) -> HTTP_RESPONSE:
+    try:
+      listOfDevices = DeviceController.getAllDevice(request)
+      print(listOfDevices)
+      return RESPONSE_SAMPLE.OK( data = listOfDevices )
+    
+    except Exception as e:
+      print(e)
+      return RESPONSE_SAMPLE.BAD_REQUEST()
