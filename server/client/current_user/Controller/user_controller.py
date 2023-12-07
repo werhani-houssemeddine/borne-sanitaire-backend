@@ -2,6 +2,9 @@ from lib.HTTP import HTTP_REQUEST
 
 from lib.token import Token
 
+from client.Repository import UserRepository
+from client.models     import UserModel
+
 class UserInfo:
   def __init__(self, username, email, role) -> None:
     self.username = username
@@ -25,6 +28,7 @@ class UserController:
     try:
       self.request: HTTP_REQUEST = request
       self.current_user: User    = self.getCurrentUser()
+      self.userObject: UserModel = UserRepository.getUserById(self.current_user.id) 
     except Exception as e:
       raise
     
@@ -51,7 +55,12 @@ class UserController:
         'role'       : user.role,
         'is_admin'   : user.role == "ADMIN",
         'is_agent'   : user.role == "AGENT",
-        'permessions': []
+        
+        # Permissions will be sent only if the role is agent 
+        **({'permissions': []} if user.role == "AGETN" else {}),
+
+        'phone_number': self.userObject.phone_number,
+        'created_at'  : self.userObject.created_at
       }
     }
     
