@@ -50,6 +50,7 @@ def makeRequest(request, middleware, **args):
     return returnHttpResponse(http_response) 
 
   except Exception as e:
+    print(e)
     # Return a generic error response
     return returnHttpResponse(RESPONSE_SAMPLE.SERVER_ERROR())   
   
