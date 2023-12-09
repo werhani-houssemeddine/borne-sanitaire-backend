@@ -2,7 +2,7 @@ from lib.HTTP import HTTP_REQUEST
 
 from lib.token import Token
 
-from client.Repository import UserRepository
+from client.Repository import UserRepository, UserPictureRepository
 from client.models     import UserModel
 
 class UserInfo:
@@ -44,6 +44,14 @@ class UserController:
       )
     except Exception as e:
       raise
+
+  def getUserProfilePicture(self) -> str:
+    try:
+      picture = UserPictureRepository.getUserPicture(self.current_user.id)
+      return None if picture == None else picture.avatar.url
+    
+    except Exception as e:
+      return None
   
   def toJSON(self):
     user = self.current_user.user
@@ -60,7 +68,9 @@ class UserController:
         **({'permissions': []} if user.role == "AGETN" else {}),
 
         'phone_number': self.userObject.phone_number,
-        'created_at'  : self.userObject.created_at
+        'created_at'  : self.userObject.created_at,
+
+        'profile_picture': self.getUserProfilePicture()
       }
     }
     
