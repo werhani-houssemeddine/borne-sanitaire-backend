@@ -45,3 +45,15 @@ class DeviceMiddleware:
     except Exception as e:
       print(e)
       return RESPONSE_SAMPLE.BAD_REQUEST()
+    
+
+  @staticmethod
+  def addNewDevice(request: HTTP_REQUEST) -> HTTP_RESPONSE:
+    try:
+      print(DeviceController.addNewDevice(request))
+      return RESPONSE_SAMPLE.CREATED({ 'device': 'DEVICE ADD SUCCESSFULLY' })
+    
+    except ValidationError as ve:
+      return RESPONSE_SAMPLE.BAD_REQUEST({ str(ve.field): str(ve.message) })
+    except Exception as e:
+      return RESPONSE_SAMPLE.BAD_REQUEST()

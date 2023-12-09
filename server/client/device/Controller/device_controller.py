@@ -106,4 +106,16 @@ class DeviceController:
       'title'        : device.title,
       'id'           : device.device_id
     }
-      
+  
+  @staticmethod
+  def addNewDevice(request: HTTP_REQUEST):
+    try:
+      device_id = request.body.get('device_id')
+      device    = DeviceRepository.addDevice(device_id, UserRepository.getUserById(getUserId(request)))
+
+      return DeviceController.formatDeviceResponse(device)
+    
+    except ValidationError:
+      raise 
+    except Exception:
+      raise

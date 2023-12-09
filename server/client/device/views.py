@@ -38,3 +38,8 @@ def getOneDevice(request, device):
 @Authenticate
 def getAllDevices(request):
   return makeRequest(request = request, middleware = DeviceMiddleware.getAllDevices)
+
+@api_view(['POST'])
+@Authenticate
+def addNewDevice(request):
+  return makeRequest(request = request, middleware = DeviceMiddleware.addNewDevice)
