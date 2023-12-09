@@ -8,18 +8,21 @@ class DeviceRepository:
   @staticmethod
   def addDevice(device_id, user):
     try:
-      device = DeviceTable.objects.get(device_id = device_id)
+      device = DeviceTable.objects.get(device_id = device_id, is_saled = False)
       device.purchase_date = timezone.now()
       device.is_saled      = True
       device.user_id       = user
       device.save()
       return device
     
+    except DeviceTable.DoesNotExist:
+      raise ValidationError('DEVICE', 'EXPIRED DEVICE') 
+
     except Exception:
       raise
 
   @staticmethod
-  def getNonSelledDevice(device_id):
+  def getNonSelledDevice(device_id) -> DeviceTable:
     try:
       return DeviceTable.objects.get(device_id = device_id, is_saled = False)
     
