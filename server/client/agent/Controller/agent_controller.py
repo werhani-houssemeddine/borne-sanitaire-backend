@@ -1,8 +1,8 @@
 from lib.errors import ServerError, ValidationError
 from lib.HTTP   import HTTP_REQUEST
 
-from client.Repository import AgentRepository
-from client.models     import AgentModel 
+from client.Repository import AgentRepository, UserPictureRepository
+from client.models     import AgentModel, UserPictureModel
 
 def getUserId(request: HTTP_REQUEST) -> int:
   currentUser = request.session.get('__currentUser__')  
@@ -62,7 +62,16 @@ class AgentController:
     except Exception as e:
       print(f"AN ERROR OCCUREND AgentController.getActiveAgents {e}")
 
-  
+  @staticmethod
+  def getProfilePicture(agent: AgentModel) -> UserPictureModel | None:
+    try:
+      agent_id = agent.agent_id.id
+      picture  = UserPictureRepository.getUserPicture(agent_id)
+      
+      return None if picture == None else picture.avatar.url
+    
+    except Exception :
+      return None
 
   @staticmethod
   def formatAgentResponse(agent: AgentModel) -> dict:
@@ -72,5 +81,7 @@ class AgentController:
       'agent_id'   : agent.id,
       'agent_email': agent.agent_id.email,
       'user_name'  : agent.agent_id.user_name,
-      'active'     : agent.suspend == False 
+      'active'     : agent.suspend == False,
+      
+      'profile_picture': AgentController.getProfilePicture(agent),
     }
