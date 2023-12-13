@@ -8,7 +8,7 @@ class OTPMiddleware:
   def enableOTP(request: HTTP_REQUEST) -> RESPONSE_SAMPLE:
     try:
       OTPController.enable_disable_OTP(request = request, is_enabled = True)
-      return RESPONSE_SAMPLE.OK({ 'enbled_otp': True })
+      return RESPONSE_SAMPLE.OK({ 'otp': 'disable' })
 
     except ValidationError as ve:
       return RESPONSE_SAMPLE.BAD_REQUEST({ str(ve.field): str(ve.message) })
@@ -19,7 +19,7 @@ class OTPMiddleware:
   def disableOTP(request: HTTP_REQUEST) -> RESPONSE_SAMPLE:
     try:
       OTPController.enable_disable_OTP(request = request, is_enabled = False)
-      return RESPONSE_SAMPLE.OK({ 'enbled_otp': True })
+      return RESPONSE_SAMPLE.OK({ 'otp': 'enable' })
       
     except ValidationError as ve:
       return RESPONSE_SAMPLE.BAD_REQUEST({ str(ve.field): str(ve.message) })
@@ -30,7 +30,9 @@ class OTPMiddleware:
   @staticmethod
   def checkOTP(request: HTTP_REQUEST) -> RESPONSE_SAMPLE:
     try:
-      OTPController.checkOTP(request = request)
+      return RESPONSE_SAMPLE.OK(
+        { 'otp_enabled': OTPController.checkOTP(request = request) }
+      )
 
     except Exception as e:
       return RESPONSE_SAMPLE.BAD_REQUEST()

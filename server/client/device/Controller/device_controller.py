@@ -7,6 +7,8 @@ from client.Repository     import DeviceRepository, UserRepository
 
 from client.utils import getUserId
 
+from client.device.Service import DeviceService
+
 class DeviceController:
   @staticmethod
   def checkDeviceId(uuid_str):
@@ -68,10 +70,18 @@ class DeviceController:
         device = DeviceController.getDeviceInstance(request)
         
         if int(max_visitors) >= 0:
-          device.max_visitors = int(max_visitors)
-          device.save()
-        
-        return int(max_visitors)
+          
+          serviceResponse  = DeviceService.getCurrentVisitors(device_id = device.device_id)
+          current_visitors = serviceResponse.get('current_visitors')
+
+          if current_visitors != None:
+            if current_visitors < int(max_visitors):
+             
+              device.max_visitors = int(max_visitors)
+              device.save()
+              return int(max_visitors)
+
+            raise ValidationError('invalid number', 'Visitors number already bigger than the value provided') 
       
       raise ValidationError('update visitors', 'Invalid visitors number')
       
@@ -104,14 +114,20 @@ class DeviceController:
       'user_id'      : device.user_id.id,
       'version'      : device.version,
       'title'        : device.title,
-      'id'           : device.device_id
+      'id'           : device.device_id,
+
+      'main'         : device.main
     }
   
   @staticmethod
   def addNewDevice(request: HTTP_REQUEST):
     try:
       device_id = request.body.get('device_id')
-      device    = DeviceRepository.addDevice(device_id, UserRepository.getUserById(getUserId(request)))
+      device    = DeviceRepository.addDevice(
+        device_id   = device_id, 
+        user        = UserRepository.getUserById(getUserId(request)),
+        main_device = False
+      )
 
       return DeviceController.formatDeviceResponse(device)
     

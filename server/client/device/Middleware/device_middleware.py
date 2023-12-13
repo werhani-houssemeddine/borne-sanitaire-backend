@@ -26,6 +26,10 @@ class DeviceMiddleware:
   def setDeviceVisitorsNumber(request: HTTP_REQUEST) -> HTTP_RESPONSE:
     try:
       return RESPONSE_SAMPLE.OK(DeviceController.setVistorNumber(request))
+    
+    except ValidationError as ve:
+      return RESPONSE_SAMPLE.BAD_REQUEST({ str(ve.field): str(ve.message) })
+
     except Exception as e:
       print(e)
       return RESPONSE_SAMPLE.BAD_REQUEST()
@@ -50,10 +54,21 @@ class DeviceMiddleware:
   @staticmethod
   def addNewDevice(request: HTTP_REQUEST) -> HTTP_RESPONSE:
     try:
+      request.body['main_device'] = False
       print(DeviceController.addNewDevice(request))
       return RESPONSE_SAMPLE.CREATED({ 'device': 'DEVICE ADD SUCCESSFULLY' })
     
     except ValidationError as ve:
       return RESPONSE_SAMPLE.BAD_REQUEST({ str(ve.field): str(ve.message) })
     except Exception as e:
+      return RESPONSE_SAMPLE.BAD_REQUEST()
+    
+  @staticmethod
+  def getDeviceInfo(request: HTTP_REQUEST) -> HTTP_RESPONSE:
+    try:
+      device = DeviceController.getDeviceInstance(request)
+      return RESPONSE_SAMPLE.OK({ "max_visitors": device.max_visitors })
+
+    except Exception as e:
+      print(e)
       return RESPONSE_SAMPLE.BAD_REQUEST()

@@ -7,4 +7,5 @@ urlpatterns = [
   path('all/', views.getAllDevices),
   path('new/', views.addNewDevice),
   path('<str:device>/', views.getOneDevice),
+  path('info/<str:device>', views.getDeviceInfo)
 ]

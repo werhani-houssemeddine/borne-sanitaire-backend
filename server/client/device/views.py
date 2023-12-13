@@ -43,3 +43,10 @@ def getAllDevices(request):
 @Authenticate
 def addNewDevice(request):
   return makeRequest(request = request, middleware = DeviceMiddleware.addNewDevice)
+
+
+#? This endpoint is mainly used in the real-time server 
+#? no authentication nedded and he only return the max_visitor_number
+@api_view(['GET'])
+def getDeviceInfo(request, device):
+  return makeRequest(request = request, middleware = DeviceMiddleware.getDeviceInfo, device = device)

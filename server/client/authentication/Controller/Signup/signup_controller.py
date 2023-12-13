@@ -6,7 +6,7 @@ from .signup_validate import SignupControllerValidatorAdmin
 from .signup_validate import SignupControllerValidatorAgent
 
 from client.Repository import UserRepository, DeviceRepository
-from client.Repository import RequestAgentRepository, AgentRepository
+from client.Repository import RequestAgentRepository, NotificationPreferencesRepository
 
 from client.models     import UserModel, AgentModel
 
@@ -39,6 +39,10 @@ class SignupController:
   def generateToken(user: UserModel) -> bytes:
     payload = { 'email': user.email, 'id': user.id, 'username': user.user_name, 'role': user.role }
     return Token.createToken(payload)
+  
+  @staticmethod
+  def initializeNotificationPreferenceTable(user: UserModel):
+    NotificationPreferencesRepository.init(user.id)
 
 
 class SignupControllerAgent(SignupController):
@@ -47,6 +51,7 @@ class SignupControllerAgent(SignupController):
       super().__init__(request)
       agent = SignupControllerValidatorAgent(request)
       self.agent = self.createNewAgent(agent)
+      self.initializeNotificationPreferenceTable(self.agent.user_id)
       
     except Exception: raise
     
@@ -75,6 +80,7 @@ class SignupControllerAdmin(SignupController):
       admin      = SignupControllerValidatorAdmin(request)
       admin_data = self.createNewAdmin(admin)
       self.initializeDeviceToAdmin(admin_data, admin)
+      self.initializeNotificationPreferenceTable(admin_data)
       self.admin = admin_data
     except Exception as e:
       raise
@@ -84,4 +90,4 @@ class SignupControllerAdmin(SignupController):
   
   @staticmethod
   def initializeDeviceToAdmin(user: UserModel, admin: SignupControllerValidatorAdmin):
-    DeviceRepository.addDevice(admin.device_id, user)
+    DeviceRepository.addDevice(admin.device_id, user, main_device = True)

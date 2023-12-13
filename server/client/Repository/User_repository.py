@@ -82,3 +82,12 @@ class UserRepository:
     
     except ValidationError: raise
     except Exception: raise
+
+  @staticmethod
+  def deleteUserById(user_id):
+    try:
+      return UserRepository.getUserById(user_id).delete()[0]
+      
+
+    except ValidationError: raise
+    except Exception: raise

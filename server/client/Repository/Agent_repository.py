@@ -86,6 +86,10 @@ class UpdateAgent:
   def unsuspendAgent(agent_id):
     UpdateAgent._update_user_attribute(agent_id, 'suspend', False, AgentModel)
 
+  @staticmethod
+  def deleteAgents(user_id):
+    return AgentModel.objects.filter(user_id = user_id).delete()
+
 class AddNew:
   @staticmethod
   def makeNewAgent(user_id: UserModel, agent_id: UserModel) -> AgentModel:
@@ -111,3 +115,5 @@ class AgentRepository:
   suspendAgent       = UpdateAgent.suspendAgent
 
   addNewAgent        = AddNew.makeNewAgent
+
+  deleteAgentsByUserId = UpdateAgent.deleteAgents

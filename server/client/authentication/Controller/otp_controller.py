@@ -18,12 +18,13 @@ class OTPController:
       same_password = Bcrypt.compare(password, user.password)
       if same_password == True:
         user.otp_enabled = is_enabled
+        user.save()
 
         return True
 
-      raise ValidationError({ 'password': 'wrong password' })
+      raise ValidationError(field = 'password', message = 'wrong password')
     
-    raise ValidationError({ 'password': 'missing password' })
+    raise ValidationError(field = 'password', message = 'missing password')
   
   
   @staticmethod

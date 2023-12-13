@@ -84,4 +84,6 @@ class AgentController:
       'active'     : agent.suspend == False,
       
       'profile_picture': AgentController.getProfilePicture(agent),
+      'phone_number'   : agent.agent_id.phone_number,
+      'permessions'    : [] 
     }
