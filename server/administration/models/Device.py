@@ -12,3 +12,4 @@ class Device(models.Model):
   purchase_date = models.DateTimeField(null=True)
   max_visitors = models.PositiveIntegerField(null=True, default = 0)
   title = models.CharField(max_length = 32, null=True)
+  main  = models.BooleanField(default=False)
