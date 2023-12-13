@@ -31,6 +31,8 @@ class User(models.Model):
     null       = True,
   )
 
+  otp_enabled = models.BooleanField(default = False)
+
   role = models.CharField(
     max_length = 10,
     choices    = ROLE_CHOICES,

@@ -6,19 +6,21 @@ from django.utils          import timezone
 
 class DeviceRepository:
   @staticmethod
-  def addDevice(device_id, user):
+  def addDevice(device_id, user, main_device = False):
     try:
       device = DeviceTable.objects.get(device_id = device_id, is_saled = False)
       device.purchase_date = timezone.now()
       device.is_saled      = True
       device.user_id       = user
+      device.main          = main_device
       device.save()
       return device
     
     except DeviceTable.DoesNotExist:
       raise ValidationError('DEVICE', 'EXPIRED DEVICE') 
 
-    except Exception:
+    except Exception as e:
+      print(e)
       raise
 
   @staticmethod
