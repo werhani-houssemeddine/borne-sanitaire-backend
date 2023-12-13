@@ -7,6 +7,7 @@ CLIENT_ENDPOINT = include('client.current_user.urls')
 DEVICE_ENDPOINT = include('client.device.urls')
 
 AUTHENTICATION_ENDPOINT = include('client.authentication.urls')
+NOTIFICATION_ENDPOINT   = include('client.notification.urls')
 
 urlpatterns = [ 
   path('signup/', views.signup),
@@ -19,6 +20,8 @@ urlpatterns = [
   path('admin/', ADMIN_ENDPOINT),
   path('agent/', AGENT_ENDPOINT),
   path('device/', DEVICE_ENDPOINT),
+
+  path('notification/', NOTIFICATION_ENDPOINT),
 
   path('', CLIENT_ENDPOINT)
 ]
