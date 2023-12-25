@@ -86,7 +86,7 @@ class SignupControllerValidatorAgent:
       
     v('password').check_min_length('password', 10)
     v('username').check_min_length('username', 4).check_max_length('username', 20)
-    return (password, username)
+    return (username, password)
   
   @staticmethod
   def getRequestAgentId(request: HTTP_REQUEST):
