@@ -5,10 +5,13 @@ from lib.token  import Token
 from .signup_validate import SignupControllerValidatorAdmin
 from .signup_validate import SignupControllerValidatorAgent
 
-from client.Repository import UserRepository, DeviceRepository
+from client.Repository import UserRepository, DeviceRepository, OTP_Repository
 from client.Repository import RequestAgentRepository, NotificationPreferencesRepository
 
 from client.models     import UserModel, AgentModel
+
+
+from lib.errors   import ValidationError, Validator
 
 class SignupController:
   def __init__(self, request: HTTP_REQUEST) -> None:
@@ -42,8 +45,15 @@ class SignupController:
   
   @staticmethod
   def initializeNotificationPreferenceTable(user: UserModel):
-    NotificationPreferencesRepository.init(user.id)
+    try:
+      if user.role == "AGENT": 
+        NotificationPreferencesRepository.initAgentNotification(agent = user)
+      elif user.role == "ADMIN": 
+        NotificationPreferencesRepository.initAdminNotification(admin = user)
+    
+      raise ValidationError("role", "Invalid user role")
 
+    except Exception: raise
 
 class SignupControllerAgent(SignupController):
   def __init__(self, request: HTTP_REQUEST) -> None:
@@ -51,14 +61,17 @@ class SignupControllerAgent(SignupController):
       super().__init__(request)
       agent = SignupControllerValidatorAgent(request)
       self.agent = self.createNewAgent(agent)
-      self.initializeNotificationPreferenceTable(self.agent.user_id)
-      
+
+      #? Initialize notification table
+      self.initializeNotificationPreferenceTable(self.agent.agent_id)
+
     except Exception: raise
+  
     
   def createNewAgent(self, agent: SignupControllerValidatorAgent) -> AgentModel:
     try:
       #? Update the request agent state
-      # self.updateAgentRequestState(agent.request_agent_id)
+      RequestAgentRepository.updateRequestAgentState(agent.request_agent_id, "ACCEPT")
       
       #? Get the user
       user = agent.request_agent.user_id
@@ -69,9 +82,6 @@ class SignupControllerAgent(SignupController):
     except Exception:
       raise
       
-  @staticmethod
-  def updateAgentRequestState(agent_id) -> bool:
-    return RequestAgentRepository.updateRequestAgentState(agent_id, "ACCEPT")
 
 class SignupControllerAdmin(SignupController):
   def __init__(self, request: HTTP_REQUEST) -> None:
@@ -91,3 +101,22 @@ class SignupControllerAdmin(SignupController):
   @staticmethod
   def initializeDeviceToAdmin(user: UserModel, admin: SignupControllerValidatorAdmin):
     DeviceRepository.addDevice(admin.device_id, user, main_device = True)
+
+  @staticmethod
+  def SignupEmailAdmin(request: HTTP_REQUEST):
+    try:
+      email = request.body.get('email')
+      Validator({ 'email': email }).check_not_null('email').check_not_empty('email').check_email('email')
+
+      if UserRepository.getUserByEmail(email) == None:
+        return {
+          'email': email,
+          'code' : OTP_Repository.createNewOTP(email)
+        }
+            
+      else:
+        raise ValidationError('email', 'This email already used')
+
+    except Exception:
+      raise
+  
