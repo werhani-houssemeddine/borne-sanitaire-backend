@@ -1,30 +1,29 @@
 from lib.errors import ValidationError
 
-from client.models import NotificationPreferencesModel
+from client.models import NotificationPreferencesModel, UserModel
 
 from client.Repository import UserRepository
 
 
 class NotificationPreferencesRepository:
   @staticmethod
-  def init(user_id):
+  def initAdminNotification(admin: UserModel) -> NotificationPreferencesModel:
     try:
-      user = UserRepository.getUserById(user_id)
-      if user.role == "ADMIN":
-        return NotificationPreferencesModel.objects.create(
-          user_id = user,
-          agent_suspend_account = True,
-          device_configuration_change = True,
-          request_agent_response = True,
-          reached_max_visitors = True,
-          hight_max_visitors = True
-        )
-      
-      else: 
-        return NotificationPreferencesModel.objects.create(user_id = user)
-    
-    except Exception:
-      raise
+      return NotificationPreferencesModel.objects.create(
+        user_id = admin,
+        agent_suspend_account = True,
+        device_configuration_change = True,
+        request_agent_response = True,
+        reached_max_visitors = True,
+        high_max_visitors = True
+      )
+    except Exception: raise
+
+  @staticmethod
+  def initAgentNotification(agent: UserModel) -> NotificationPreferencesModel:
+    try:
+      return NotificationPreferencesModel.objects.create(user_id = agent)
+    except Exception: raise
 
   @staticmethod
   def getNotificationPreference(user_id):
@@ -70,7 +69,7 @@ class NotificationPreferencesRepository:
 
   @staticmethod
   def updateHightMaxVisitors(user_id, value):
-    NotificationPreferencesRepository._update_preference_field(user_id, 'hight_max_visitors', value)
+    NotificationPreferencesRepository._update_preference_field(user_id, 'high_max_visitors', value)
     return True
 
   @staticmethod
