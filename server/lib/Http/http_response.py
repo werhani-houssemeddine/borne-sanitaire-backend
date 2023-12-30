@@ -39,8 +39,14 @@ class HTTP_RESPONSE:
     self.headers     = headers if headers is not None else HTTP_HEADER_RESPONSE()
     self.status_code = 200
 
-  def withBody(self, message = "", error = False, state = "success", data = None):
-    self.body = HTTP_RESPONSE_BODY(message, error, state, data)
+  def withBody(self, message = "", error = False, state = "SUCCESS", data = None):
+    self.body = HTTP_RESPONSE_BODY(
+      message = str.upper(message), 
+      error   = error, 
+      state   = str.upper(state), 
+      data    = data
+    )
+    
     if data == None:
       del self.body.data
     
