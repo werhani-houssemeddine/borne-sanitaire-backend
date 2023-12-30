@@ -19,9 +19,17 @@ def updateAgent(request):
   return makeRequest(request = request, middleware = AgentMiddleware.updateCurrentAgent)
 
 
-@api_view(['GET'])
-def archieveAgent(request):
-  return makeRequest(request = request, middleware = AgentMiddleware.suspendCurrentAgent)
+@api_view(['PUT'])
+@Authenticate
+@Authorized(['ADMIN'])
+def archieveAgent(request, id):
+  return makeRequest(request = request, middleware = AgentMiddleware.suspendAgent, id = id)
+
+@api_view(['PUT'])
+@Authenticate
+@Authorized(['ADMIN'])
+def dearchieveAgent(request, id):
+  return makeRequest(request = request, middleware = AgentMiddleware.restoreAgent, id = id)
 
 @api_view(['GET'])
 @Authenticate

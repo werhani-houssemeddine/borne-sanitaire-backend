@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 urlpatterns = [ 
@@ -8,9 +8,12 @@ urlpatterns = [
   path('archeived/', views.getArcheivedAgents),
   path('pending/', views.gentPendingAgents),
   path('all/', views.getAllAgents),
-  path('one/<int:id>/', views.getOneAgentData)
+  path('one/<int:id>/', views.getOneAgentData),
+
+  path('permession/', include('client.agent.permession.urls')),
   # path('add/', ),
   # path('edit/', ),
-  # path('archieve/', ),
+  path('archieve/<int:id>/', views.archieveAgent),
+  path('dearchive/<int:id>/', views.dearchieveAgent)
   # path('delete/', )  
 ]
