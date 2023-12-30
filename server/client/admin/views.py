@@ -33,5 +33,5 @@ def getSingleRequestAgent(request, id):
 @api_view(['GET'])
 @Authenticate
 @Authorized('ADMIN')
-def getAllRequestAgent(request):
-    return makeRequest(request = request, middleware = RequestAgentAdminMiddleware.getAllRequest)
+def getAllPendingRequestAgent(request):
+    return makeRequest(request = request, middleware = RequestAgentAdminMiddleware.getAllPendingRequestAgent)

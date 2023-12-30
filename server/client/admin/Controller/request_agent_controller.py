@@ -106,7 +106,7 @@ class RequestAgentController:
     except Exception: raise
   
   @staticmethod
-  def getAllRequestAgent(request: HTTP_REQUEST) -> bool:
+  def getAllPendingRequestAgent(request: HTTP_REQUEST) -> bool:
     try:
       user_id = getUserId(request)
       listOfRequestAgent = RequestAgentRepository.getAllRequestAgent(user_id)

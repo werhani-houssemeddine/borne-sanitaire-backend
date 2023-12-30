@@ -49,9 +49,9 @@ class RequestAgentAdminMiddleware:
 
 
   @staticmethod
-  def getAllRequest(request: HTTP_REQUEST) -> HTTP_RESPONSE:
+  def getAllPendingRequestAgent(request: HTTP_REQUEST) -> HTTP_RESPONSE:
     try:
-      listOfRequestAgent = RequestAgentController.getAllRequestAgent(request)
+      listOfRequestAgent = RequestAgentController.getAllPendingRequestAgent(request)
       return RESPONSE_SAMPLE.OK( data = listOfRequestAgent)
     
     except Exception:
@@ -61,7 +61,7 @@ class RequestAgentAdminMiddleware:
   def deleteRequest(request: HTTP_REQUEST) -> HTTP_RESPONSE:
     try:
       result: bool = RequestAgentController.deleteRequestAgent(request)
-      return RESPONSE_SAMPLE.OK(data = { 'delete': result })
+      return RESPONSE_SAMPLE.OK({ 'delete': result })
     
     except ServerError as se:
       return RESPONSE_SAMPLE.SERVER_ERROR()

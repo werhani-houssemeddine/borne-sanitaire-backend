@@ -65,7 +65,7 @@ class RequestAgentRepository:
   @staticmethod
   def getAllRequestAgent(user_id: int):
     try:
-      return RequestAgentModel.objects.filter(user_id = user_id)
+      return RequestAgentModel.objects.filter(user_id = user_id, state = "PENDING")
     except RequestAgentModel.DoesNotExist:
       return None
     except Exception:
