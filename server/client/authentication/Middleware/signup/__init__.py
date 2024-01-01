@@ -1,2 +1,2 @@
-from .signup_admin import SignupAdminMiddleware
+from .signup_admin import SignupAdminMiddleware, SignupEmailAdmin
 from .signup_agent import SignupAgentMiddleware

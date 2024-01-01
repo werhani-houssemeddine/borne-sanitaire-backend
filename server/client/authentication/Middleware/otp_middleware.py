@@ -36,3 +36,14 @@ class OTPMiddleware:
 
     except Exception as e:
       return RESPONSE_SAMPLE.BAD_REQUEST()
+
+  @staticmethod
+  def compareOTP(request: HTTP_REQUEST) -> RESPONSE_SAMPLE:
+    try:
+      if OTPController.compareOTP(request):
+        return RESPONSE_SAMPLE.OK()      
+
+    except ValidationError as ve:
+      return RESPONSE_SAMPLE.BAD_REQUEST({ str(ve.field): str(ve.message) })
+    except Exception as e:
+      return RESPONSE_SAMPLE.BAD_REQUEST()
