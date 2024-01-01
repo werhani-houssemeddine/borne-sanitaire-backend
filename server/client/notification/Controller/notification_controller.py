@@ -21,13 +21,13 @@ class NotificationPreferencesController:
           'request_agent_response'     : notifications.request_agent_response,
           'agent_suspend_account'      : notifications.agent_suspend_account,
           'reached_max_visitors'       : notifications.reached_max_visitors,
-          'high_max_visitors'          : notifications.hight_max_visitors
+          'high_max_visitors'          : notifications.high_max_visitors
         }
       
       else:
         return {
           'reached_max_visitors': notifications.reached_max_visitors,
-          'high_max_visitors'   : notifications.hight_max_visitors
+          'high_max_visitors'   : notifications.high_max_visitors
         }
     
     except Exception:
@@ -49,7 +49,7 @@ class NotificationPreferencesController:
         castToBoolean(request_agent_response),
         castToBoolean(agent_suspend_account),
         castToBoolean(reached_max_visitors),
-        castToBoolean('false')
+        castToBoolean(high_max_visitors)
       )
 
 

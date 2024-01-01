@@ -12,5 +12,5 @@ class NotificationPreferencesModel(models.Model):
   request_agent_response = models.BooleanField(default = False)
 
   reached_max_visitors = models.BooleanField(default = True)
-  hight_max_visitors = models.BooleanField(default = True)
+  high_max_visitors = models.BooleanField(default = True)
 

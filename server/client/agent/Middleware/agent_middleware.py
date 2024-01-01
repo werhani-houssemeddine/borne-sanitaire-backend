@@ -28,7 +28,7 @@ class AgentMiddleware(GetAgentMiddleware):
       agentController = AgentController(request)
       agentController.suspendAgent()
 
-      return RESPONSE_SAMPLE.OK({ 'susspend': True })
+      return RESPONSE_SAMPLE.OK({ 'suspend': True })
     
     except ServerError as se: 
       return RESPONSE_SAMPLE.SERVER_ERROR()
