@@ -2,9 +2,9 @@ from client.utils.get_user_id import getUserId
 
 from lib.bcrypt import Bcrypt 
 from lib.HTTP   import HTTP_REQUEST, RESPONSE_SAMPLE
-from lib.errors import ValidationError
+from lib.errors import ValidationError, Validator
 
-from client.Repository import UserRepository
+from client.Repository import UserRepository, OTP_Repository
 
 class OTPController:
   @staticmethod
@@ -37,3 +37,28 @@ class OTPController:
 
     except Exception:
       raise
+
+  @staticmethod
+  def compareOTP(request: HTTP_REQUEST):
+    try:
+      email  = request.body.get('email')
+      v_code = request.body.get('verification_code')
+
+      Validator({ 'email': email, 'verification code': v_code }) \
+        .check_email('email').check_not_null('verification code') \
+        .check_not_empty('verification code')
+      print(email, int(v_code))
+      if OTP_Repository.compareOTP(email, int(v_code)):
+        
+        OTP_Repository.deleteOTP(email)
+        return True
+      
+      raise ValidationError('verification code', 'expired verification code')
+
+    except Exception as e:
+      print(e)
+      raise
+      
+  @staticmethod
+  def generateOTP(email: str):
+    return OTP_Repository.createNewOTP(email)

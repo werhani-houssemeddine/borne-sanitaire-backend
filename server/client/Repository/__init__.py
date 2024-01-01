@@ -5,3 +5,4 @@ from .User_repository         import UserRepository
 from .Picture_repository      import UserPictureRepository
 
 from .NotificationPreference_repository import NotificationPreferencesRepository
+from .OTP_repository import OTP_Repository

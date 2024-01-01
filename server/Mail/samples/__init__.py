@@ -1,5 +1,6 @@
 from .verification_code import generateVerificationCodeTemplate
-from .add_agent         import generateAddAgentTemplate  
+from .add_agent         import generateAddAgentTemplate
+from .otp               import generateOTPTemplate
 
 # This class will have a couple of examples of 
 # an email with HTML content, we will add others for 
@@ -15,3 +16,7 @@ class HTMLSample:
   def NEW_AGENT_SAMPLE(message):
     link = message['host'] + '/agent-request/?agent=' + message['request_id']
     return generateAddAgentTemplate(full_name = message['username'], link = link)
+
+  @staticmethod
+  def OTP_SAMPLE(message):
+    return generateOTPTemplate(message)

@@ -41,12 +41,13 @@ def isAuthenticate(callback):
 
             #? check for client role, if it's AGENT we have to add 
             #? the permissions
-            if client.role == "ADMIN":
-              request.session['__currentUser__'] = CurrentUser(email, client.user_name, id, client.role).__dict__
-            else: 
-              #! If userData['role'] == AGENT
-              #! We Have to check the permission table
-              pass
+            # if client.role == "ADMIN":
+            # else: 
+            #   #! If userData['role'] == AGENT
+            #   #! We Have to check the permission table
+            #   pass
+            
+            request.session['__currentUser__'] = CurrentUser(email, client.user_name, id, client.role).__dict__
 
           
           return callback(request, *args, **kwargs)
