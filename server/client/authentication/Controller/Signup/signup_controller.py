@@ -51,7 +51,8 @@ class SignupController:
       elif user.role == "ADMIN": 
         NotificationPreferencesRepository.initAdminNotification(admin = user)
     
-      raise ValidationError("role", "Invalid user role")
+      print('Error initialize notification preference table')
+      raise ValidationError("ROLE", "INVALID USER ROLE")
 
     except Exception: raise
 
