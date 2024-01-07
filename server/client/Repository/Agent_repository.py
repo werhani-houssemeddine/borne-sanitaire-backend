@@ -68,7 +68,9 @@ class UpdateAgent:
       setattr(user, attribute, new_value)
       user.save()
     except model_class.DoesNotExist:
-      pass
+      raise ValidationError('AGENT', 'INVALID AGENT ID')
+    except Exception as e:
+      raise ValidationError(attribute, 'INVALID ATTRIBUTE PROPERTY')
 
   @staticmethod
   def updateUserPassword(id, new_password):
