@@ -38,7 +38,7 @@ class AgentController:
     self.request  = request
     self.user_id  = getUserId(request)
   
-  def getAgent(self):
+  def getAgent(self) -> AgentModel:
     try:
       id = self.request.params.get('id')
       if id is None: raise ValidationError('ID', 'INVALID AGENT ID')
@@ -98,6 +98,14 @@ class AgentController:
       return SuspendAgent.restoreAgent(id)
     
     except Exception: raise
+  
+  def deleteAgent(self):
+    try:
+      agent = self.getAgent()
+      agent.delete()
+    
+    except Exception as e:
+      raise
 
   @staticmethod
   def getProfilePicture(agent: AgentModel) -> UserPictureModel | None:

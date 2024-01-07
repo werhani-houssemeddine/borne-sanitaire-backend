@@ -64,3 +64,14 @@ def getOneAgentData(request, id):
     request = request, 
     id = id
   )
+
+
+@api_view(['DELETE'])
+@Authenticate
+@Authorized(['ADMIN'])
+def deleteAgent(request, id):
+  return makeRequest(
+    middleware = AgentMiddleware.deleteAgent,
+    request    = request,
+    id         = id 
+  )

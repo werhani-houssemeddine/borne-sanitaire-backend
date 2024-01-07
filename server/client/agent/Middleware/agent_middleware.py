@@ -37,7 +37,7 @@ class AgentMiddleware(GetAgentMiddleware):
     except Exception: return RESPONSE_SAMPLE.BAD_REQUEST()
   
   @staticmethod
-  def restoreAgent(request: HTTP_REQUEST)-> HTTP_RESPONSE:
+  def restoreAgent(request: HTTP_REQUEST) -> HTTP_RESPONSE:
     try:
       agentController = AgentController(request)
       agentController.restoreAgent()
@@ -48,5 +48,20 @@ class AgentMiddleware(GetAgentMiddleware):
       return RESPONSE_SAMPLE.SERVER_ERROR()
     except ValidationError as ve:
       return RESPONSE_SAMPLE.BAD_REQUEST(details = { str(ve.field): str(ve.message) })
-    except Exception: return RESPONSE_SAMPLE.BAD_REQUEST()
+    except Exception: 
+      return RESPONSE_SAMPLE.BAD_REQUEST()
   
+  @staticmethod
+  def deleteAgent(request: HTTP_REQUEST) -> HTTP_RESPONSE:
+    try:
+      agentController = AgentController(request)
+      agentController.deleteAgent()
+
+      return RESPONSE_SAMPLE.OK({ 'delete': True })
+    
+    except ServerError as se: 
+      return RESPONSE_SAMPLE.SERVER_ERROR()
+    except ValidationError as ve:
+      return RESPONSE_SAMPLE.BAD_REQUEST(details = { str(ve.field): str(ve.message) })
+    except Exception: 
+      return RESPONSE_SAMPLE.BAD_REQUEST()

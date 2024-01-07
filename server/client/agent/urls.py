@@ -14,6 +14,6 @@ urlpatterns = [
   # path('add/', ),
   # path('edit/', ),
   path('archieve/<int:id>/', views.archieveAgent),
-  path('dearchive/<int:id>/', views.dearchieveAgent)
-  # path('delete/', )  
+  path('dearchive/<int:id>/', views.dearchieveAgent),
+  path('delete/<int:id>/', views.deleteAgent)  
 ]
