@@ -36,11 +36,12 @@ class UserController:
     try:
       token = self.request.headers.Authorization
       payload_token = Token.getTokenPayload(token)
+      user = UserRepository.getUserById(payload_token['id'])
       return User(
-        id       = payload_token['id'],
-        username = payload_token['username'],
-        email    = payload_token['email'],
-        role     = payload_token['role']
+        id       = user.id,
+        username = user.user_name,
+        email    = user.email,
+        role     = user.role
       )
     except Exception as e:
       raise
